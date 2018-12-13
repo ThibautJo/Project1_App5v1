@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:screenOrientation="landscape"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Project1_App5v1"
     tools:showIn="@layout/activity_project1__app5v1">
