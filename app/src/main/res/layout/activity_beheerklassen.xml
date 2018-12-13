@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Project1_App5v1">
+    android:screenOrientation="landscape"
+    tools:context=".beheerklassen">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,11 +22,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_project1__app5v1" />
-
-
-
+    <include layout="@layout/content_beheerklassen" />
 
 
 </android.support.design.widget.CoordinatorLayout>
-

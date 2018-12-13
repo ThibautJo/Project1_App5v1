@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Project1_App5v1</string>
-    <string name="action_settings">Beheer klassen</string>
+    <string name="beheer_klassen">Beheer klassen</string>
+    <string name="title_activity_beheerklassen">beheerklassen</string>
 </resources>

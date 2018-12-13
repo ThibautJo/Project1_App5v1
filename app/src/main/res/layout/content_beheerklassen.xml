@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:screenOrientation="landscape"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Project1_App5v1"
-    tools:showIn="@layout/activity_project1__app5v1">
+    android:screenOrientation="landscape"
+    tools:context=".beheerklassen"
+    tools:showIn="@layout/activity_beheerklassen">
 
-
-
-
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" />
+        android:text="Beheer klassen."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
