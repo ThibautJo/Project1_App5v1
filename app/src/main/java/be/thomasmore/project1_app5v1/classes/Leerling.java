@@ -1,4 +1,4 @@
-package be.thomasmore.project1_app5v1;
+package be.thomasmore.project1_app5v1.classes;
 
 import java.util.Date;
 
@@ -7,21 +7,21 @@ public class Leerling {
     private Long id;
     private String naam;
     private String voornaam;
-    private Date geboortedatum;
+    private int punten;
 
-    private int klasID;
-    private int groepID;
+    private int klasId;
+    private int groepId;
 
     public Leerling() {
     }
 
-    public Leerling(Long id, String naam, String voornaam, Date geboortedatum, int klasID, int groepID) {
+    public Leerling(Long id, String naam, String voornaam, int punten, int klasID, int groepID) {
         this.id = id;
         this.naam = naam;
         this.voornaam = voornaam;
-        this.geboortedatum = geboortedatum;
-        this.klasID = klasID;
-        this.groepID = groepID;
+        this.punten = punten;
+        this.klasId = klasID;
+        this.groepId = groepID;
     }
 
     public Long getId() {
@@ -48,28 +48,28 @@ public class Leerling {
         this.voornaam = voornaam;
     }
 
-    public Date getGeboortedatum() {
-        return geboortedatum;
+    public int getPunten() {
+        return punten;
     }
 
-    public void setGeboortedatum(Date geboortedatum) {
-        this.geboortedatum = geboortedatum;
+    public void setPunten(int punten) {
+        this.punten = punten;
     }
 
     public int getKlasID() {
-        return klasID;
+        return klasId;
     }
 
     public void setKlasID(int klasID) {
-        this.klasID = klasID;
+        this.klasId = klasID;
     }
 
     public int getGroepID() {
-        return groepID;
+        return groepId;
     }
 
     public void setGroepID(int groepID) {
-        this.groepID = groepID;
+        this.groepId = groepID;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package be.thomasmore.project1_app5v1;
+package be.thomasmore.project1_app5v1.classes;
 
 public class Groep {
 
@@ -6,6 +6,7 @@ public class Groep {
     private int conditie_id1;
     private int conditie_id2;
     private int conditie_id3;
+
 
     public Groep() {
     }
