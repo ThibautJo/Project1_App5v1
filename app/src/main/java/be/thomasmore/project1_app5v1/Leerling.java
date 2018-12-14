@@ -1,4 +1,4 @@
-package be.thomasmore.project1_app5v1.classes;
+package be.thomasmore.project1_app5v1;
 
 import java.util.Date;
 

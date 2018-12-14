@@ -1,4 +1,4 @@
-package be.thomasmore.project1_app5v1.classes;
+package be.thomasmore.project1_app5v1;
 
 public class Klas {
 
@@ -41,6 +41,7 @@ public class Klas {
 
     @Override
     public String toString() {
-        return super.toString();
+
+        return "Klas " + jaar + naam;
     }
 }

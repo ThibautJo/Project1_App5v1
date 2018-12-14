@@ -1,4 +1,4 @@
-package be.thomasmore.project1_app5v1.classes;
+package be.thomasmore.project1_app5v1;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -73,17 +73,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertCondities(SQLiteDatabase db) {
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (0, 'Duikbril');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (0, 'Duikbril','','');");
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (1, 'Klimtouw', 'Kroos', 'Riet');");
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (2, 'Val', 'Compas', 'Steil');");
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (3, 'Zwaan', 'Kamp', 'Zaklamp');");
     }
 
     private void insertKlassen(SQLiteDatabase db) {
-        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (0, 'ITF', 1);");
-        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (1, 'Boekhouden', 2);");
-        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (2, 'Marketing', 2);");
-        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (3, 'ITF', 3);");
+        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (0, 'A', 1);");
+        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (1, 'B', 2);");
+        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (2, 'C', 2);");
+        db.execSQL("INSERT INTO klas (id, naam, jaar) VALUES (3, 'C', 3);");
     }
 
     private void insertGroepen(SQLiteDatabase db) {
@@ -93,15 +93,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertLeerlingen(SQLiteDatabase db) {
-        db.execSQL("INSERT INTO klas (id, naam, voornaam, klasId, groepId) VALUES (0, 'Joukes', 'Thibaut', 4, 2 );");
+        db.execSQL("INSERT INTO leerling (id, naam, voornaam, klasId, groepId) VALUES (0, 'Joukes', 'Thibaut', 4, 2 );");
         ;
-        db.execSQL("INSERT INTO klas (id, naam, voornaam, klasId, groepId) VALUES (0, 'Vansprengel', 'Thomas', 1, 1 );");
+        db.execSQL("INSERT INTO leerling (id, naam, voornaam, klasId, groepId) VALUES (1, 'Vansprengel', 'Thomas', 1, 1 );");
         ;
-        db.execSQL("INSERT INTO klas (id, naam, voornaam, klasId, groepId) VALUES (0, 'Greif', 'Matthias', 0, 2 );");
+        db.execSQL("INSERT INTO leerling (id, naam, voornaam, klasId, groepId) VALUES (2, 'Greif', 'Matthias', 0, 2 );");
         ;
-        db.execSQL("INSERT INTO klas (id, naam, voornaam, klasId, groepId) VALUES (0, 'Bomhals', 'Thibaut', 2, 0 );");
+        db.execSQL("INSERT INTO leerling (id, naam, voornaam, klasId, groepId) VALUES (3, 'Bomhals', 'Thibaut', 2, 0 );");
         ;
-        db.execSQL("INSERT INTO klas (id, naam, voornaam, klasId, groepId) VALUES (0, 'Sledsens', 'Toon', 2, 0 );");
+        db.execSQL("INSERT INTO leerling (id, naam, voornaam, klasId, groepId) VALUES (4, 'Sledsens', 'Toon', 2, 0 );");
         ;
     }
 
