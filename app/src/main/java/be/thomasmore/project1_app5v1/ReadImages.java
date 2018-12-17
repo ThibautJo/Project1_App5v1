@@ -2,6 +2,7 @@ package be.thomasmore.project1_app5v1;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -14,10 +15,9 @@ public class ReadImages {
 
 
     // drawable directory opslaan
-    static final File dir = new File("/drawable");
+    static final File dir = new File("android.resource://be.thomasmore.project1_app5v1/drawable");
 
     //opslaan van alle images nodig
-    private ArrayList<Bitmap> imgFilesPath = new ArrayList<Bitmap>();
     private static String VOORZETSEL = "";
 
 
@@ -25,26 +25,12 @@ public class ReadImages {
         // alle images worden opgrevraagd
     }
 
-    // @Param voorzetsel
-    // voorzetsel = het voorzetsel van de image (eerste gedeelte VOOR de '_' char)
-    public ReadImages(String voorzetsel) {
-        setVOORZETSEL(voorzetsel);
-    }
-
-    public static String getVOORZETSEL() {
+    public String getVOORZETSEL() {
         return VOORZETSEL;
     }
 
-    public static void setVOORZETSEL(String VOORZETSEL) {
+    public void setVOORZETSEL(String VOORZETSEL) {
         ReadImages.VOORZETSEL = VOORZETSEL;
-    }
-
-    public ArrayList<Bitmap> getImgFile() {
-        return imgFilesPath;
-    }
-
-    public void setImgFile(ArrayList<Bitmap> imgFile) {
-        this.imgFilesPath = imgFile;
     }
 
 
@@ -68,7 +54,9 @@ public class ReadImages {
     };
 
 
-    public void ZoekImages(String[] args) {
+    public ArrayList<Bitmap> ZoekImages(String voorzetsel) {
+
+        setVOORZETSEL(voorzetsel);
 
         //eerst opvullen dan private variable opvullen met setter
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
@@ -76,18 +64,20 @@ public class ReadImages {
         if (dir.isDirectory()) { // make sure it's a directory
             for (final File f : dir.listFiles(IMAGE_FILTER) ) {
 
-                if(f.exists()){
-
+                try{
                     Bitmap myBitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
 
                     images.add(myBitmap);
+                }
+                catch (Exception e){
+
                 }
 
             }
         }
 
         // private var opvullen met setten
-        setImgFile(images);
+        return images;
     }
 
 

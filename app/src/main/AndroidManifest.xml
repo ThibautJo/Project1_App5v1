@@ -29,12 +29,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".voormeting"
-            android:label="@string/title_activity_oef1"
+            android:label="@string/title_activity_voormeting"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PreTeachingplaat"
             android:label="@string/title_activity_pre_teachingplaat"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Oefening1"
+            android:label="@string/title_activity_oef1"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

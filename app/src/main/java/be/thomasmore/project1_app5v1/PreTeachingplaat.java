@@ -1,5 +1,6 @@
 package be.thomasmore.project1_app5v1;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PreTeachingplaat extends AppCompatActivity {
+
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class PreTeachingplaat extends AppCompatActivity {
         img.bringToFront();
 
         //afspelen van woord
-        MediaPlayer player = MediaPlayer.create(this, R.raw.preteachsound);
+        player = MediaPlayer.create(this, R.raw.preteachsound);
 
         player.start();
     }
@@ -42,7 +45,11 @@ public class PreTeachingplaat extends AppCompatActivity {
 
             // eventuele aantal setting instellen (leerling object aanpassen?)
 
-            // next activity openen
+            // next activity openen + audio stoppen
+            player.stop();
+
+            Intent intent = new Intent(this, Oefening1.class);
+            startActivity(intent);
 
         } else {
             Toast.makeText(this, "FOUT", Toast.LENGTH_SHORT).show();
