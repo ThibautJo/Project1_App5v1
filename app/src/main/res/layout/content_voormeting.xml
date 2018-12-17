@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".voormeting"
+    tools:showIn="@layout/activity_voormeting">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="duikbril"
+            android:textSize="28dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:id="@+id/linearLayoutTop">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/foto1"
+                android:tag="@string/juistAfbeeldingTag"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="ImageClicked"
+                android:src="@drawable/voormeting_duikbril" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/foto2"
+                android:tag="@string/foutAfbeeldingTag"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="ImageClicked"
+                android:src="@drawable/voormeting_foto1"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:id="@+id/linearLayoutBottom">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/foto3"
+                android:tag="@string/foutAfbeeldingTag"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="ImageClicked"
+                android:src="@drawable/voormeting_foto2"
+                />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/foto4"
+                android:tag="@string/foutAfbeeldingTag"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="ImageClicked"
+                android:src="@drawable/voormeting_foto3"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

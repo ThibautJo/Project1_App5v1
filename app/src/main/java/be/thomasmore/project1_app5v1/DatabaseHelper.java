@@ -73,10 +73,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertCondities(SQLiteDatabase db) {
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (0, 'Duikbril','','');");
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (1, 'Klimtouw', 'Kroos', 'Riet');");
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (2, 'Val', 'Compas', 'Steil');");
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (3, 'Zwaan', 'Kamp', 'Zaklamp');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (0, 'duikbril','','');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (1, 'klimtouw', 'kroos', 'riet');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (2, 'val', 'compas', 'steil');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (3, 'zwaan', 'kamp', 'zaklamp');");
     }
 
     private void insertKlassen(SQLiteDatabase db) {
@@ -201,6 +201,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lijst;
     }
 
+    public Groep getGroep(int id) {
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                "groep",      // tabelnaam
+                new String[]{"id", "conditie_id1", "conditie_id2", "conditie_id3"}, // kolommen
+                "id = ?",  // selectie
+                new String[]{String.valueOf(id)}, // selectieparameters
+                null,           // groupby
+                null,           // having
+                null,           // sorting
+                null);
+
+        Groep groep = new Groep();
+
+        if (cursor.moveToFirst()) {
+            groep = new Groep(cursor.getLong(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3));
+        }
+
+        cursor.close();
+        db.close();
+        return groep;
+    }
+
     public List<Conditie> leesAlleCondities() {
         List<Conditie> lijst = new ArrayList<Conditie>();
 
@@ -221,6 +246,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lijst;
     }
 
+    public Conditie getConditie(int id) {
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                "conditie",      // tabelnaam
+                new String[]{"id", "woord1", "woord2", "woord3"}, // kolommen
+                "id = ?",  // selectie
+                new String[]{String.valueOf(id)}, // selectieparameters
+                null,           // groupby
+                null,           // having
+                null,           // sorting
+                null);
+
+        Conditie conditie = new Conditie();
+
+        if (cursor.moveToFirst()) {
+            conditie = new Conditie(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+        }
+
+        cursor.close();
+        db.close();
+        return conditie;
+    }
+
     //
     // Insert queries
     //
@@ -236,6 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return id;
     }
+
     public long insertLeerling(Leerling leerling) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -266,11 +317,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "klas",
                 values,
                 "id = ?",
-                new String[] { String.valueOf(klas.getId()) });
+                new String[]{String.valueOf(klas.getId())});
 
         db.close();
         return numrows > 0;
     }
+
     public boolean updateLeerling(Leerling leerling) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -285,7 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "leerling",
                 values,
                 "id = ?",
-                new String[] { String.valueOf(leerling.getId()) });
+                new String[]{String.valueOf(leerling.getId())});
 
         db.close();
         return numrows > 0;
@@ -300,18 +352,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int numrows = db.delete(
                 "klas",
                 "id = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
 
         db.close();
         return numrows > 0;
     }
+
     public boolean deleteLeerling(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int numrows = db.delete(
                 "leerling",
                 "id = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
 
         db.close();
         return numrows > 0;
