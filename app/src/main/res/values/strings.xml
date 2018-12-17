@@ -2,4 +2,8 @@
     <string name="app_name">Project1_App5v1</string>
     <string name="beheer_klassen">Beheer klassen</string>
     <string name="title_activity_beheerklassen">beheerklassen</string>
+    <string name="title_activity_oef1">Oef1</string>
+    <string name="foutAfbeeldingTag">fotoFout</string>
+    <string name="juistAfbeeldingTag">fotoJuist</string>
+    <string name="title_activity_pre_teachingplaat">PreTeachingplaat</string>
 </resources>

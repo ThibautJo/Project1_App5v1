@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="be.thomasmore.project1_app5v1">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +14,7 @@
         <activity
             android:name=".Project1_App5v1"
             android:label="Woordenspel"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +25,17 @@
         <activity
             android:name=".beheerklassen"
             android:label="@string/title_activity_beheerklassen"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".voormeting"
+            android:label="@string/title_activity_oef1"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PreTeachingplaat"
+            android:label="@string/title_activity_pre_teachingplaat"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
