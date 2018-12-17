@@ -9,12 +9,55 @@
     tools:context=".beheerklassen"
     tools:showIn="@layout/activity_beheerklassen">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Beheer klassen."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp">
+
+        <Button
+            android:id="@+id/buttonCreateKlas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Maak een nieuwe klas" />
+
+        <TextView
+            android:id="@+id/textViewKlasCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonCreateKlas"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="0 records found" />
+        <TextView
+            android:id="@+id/textViewInfoAanpas"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewKlasCount"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="Houd een klas in om deze aan te passen of te verwijderen"
+            android:textStyle="bold"/>
+
+        <ScrollView
+            android:id="@+id/scrollViewRecords"
+            android:layout_width="250px"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textViewInfoAanpas"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="0dp"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutRecords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

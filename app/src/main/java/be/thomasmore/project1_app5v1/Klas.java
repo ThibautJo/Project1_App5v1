@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Klas implements Serializable {
 
-    private Long id;
-    private String naam;
-    private int jaar;
+    public Long id;
+    public String naam;
+    public int jaar;
 
     public Klas() {
     }

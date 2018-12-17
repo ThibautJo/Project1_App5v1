@@ -75,7 +75,6 @@ public class Leerling {
 
     @Override
     public String toString() {
-
         return voornaam + " " + naam + " | Aantal punten: " + punten + " | Groep: ";
     }
 }
