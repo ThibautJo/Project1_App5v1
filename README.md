@@ -2,6 +2,6 @@
 
 Een android app voor het trainen van de woordenschat bij kleuters.
 
-Android project by:
-  Thomas Vansprengel
+Android project by: \n
+  Thomas Vansprengel \n
   Thibaut Joukes
