@@ -12,6 +12,7 @@ public class Leerling {
     private int klasId;
     private int groepId;
 
+
     public Leerling() {
     }
 
@@ -74,6 +75,7 @@ public class Leerling {
 
     @Override
     public String toString() {
-        return super.toString();
+
+        return voornaam + " " + naam + " | Aantal punten: " + punten + " | Groep: ";
     }
 }

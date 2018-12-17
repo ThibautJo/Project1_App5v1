@@ -1,6 +1,8 @@
 package be.thomasmore.project1_app5v1;
 
-public class Klas {
+import java.io.Serializable;
+
+public class Klas implements Serializable {
 
     private Long id;
     private String naam;
