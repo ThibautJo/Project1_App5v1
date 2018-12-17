@@ -14,4 +14,8 @@
     <string name="foutAfbeeldingTag">fotoFout</string>
     <string name="juistAfbeeldingTag">fotoJuist</string>
 
+    <string name="knopVerder">Verder</string>
+
+    <string name="standaardImageDescr">Image</string>
+
 </resources>

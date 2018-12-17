@@ -8,23 +8,37 @@
     tools:context=".Oefening1"
     tools:showIn="@layout/activity_oefening1">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
         <TextView
+            android:id="@+id/oef1Titel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:id="@+id/oef1Titel"
-            android:text="standaard"
-            android:textAlignment="center"/>
+            android:layout_alignParentTop="true"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
         <ImageView
+            android:id="@+id/oef1Foto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/oef1Foto"
-            android:padding="20px"
-            />
+            android:layout_marginTop="30sp"
+            android:padding="20dp"
+            android:contentDescription="@string/standaardImageDescr" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/knopVerder"
+            android:textSize="16sp"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
