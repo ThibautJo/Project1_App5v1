@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".kiesGroep"
+    tools:showIn="@layout/activity_kies_groep">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:id="@+id/groep1"
+            android:tag="groep1"
+            android:text="Groep 1"
+            android:layout_weight="1"
+            android:onClick="buttonClicked"/>
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:id="@+id/groep2"
+            android:tag="groep2"
+            android:text="Groep 2"
+            android:layout_weight="1"
+            android:onClick="buttonClicked"/>
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:id="@+id/groep3"
+            android:tag="groep3"
+            android:text="Groep 3"
+            android:layout_weight="1"
+            android:onClick="buttonClicked"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

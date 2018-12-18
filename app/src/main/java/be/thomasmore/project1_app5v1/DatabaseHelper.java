@@ -186,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 "leerling",      // tabelnaam
-                new String[]{"id", "naam", "voornaam", "punten", "klasId", "groepId"}, // kolommen
+                new String[]{"id", "naam", "voornaam", "punten", "klasId", "groepId" }, // kolommen
                 "id = ?",  // selectie
                 new String[]{String.valueOf(id)}, // selectieparameters
                 null,           // groupby
@@ -334,7 +334,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("name", klas.getNaam());
+        values.put("naam", klas.getNaam());
         values.put("jaar", klas.getJaar());
 
         int numrows = db.update(
@@ -351,10 +351,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("name", leerling.getNaam());
+        values.put("naam", leerling.getNaam());
         values.put("voornaam", leerling.getVoornaam());
         values.put("punten", leerling.getPunten());
-        values.put("kladId", leerling.getKlasID());
+        values.put("klasId", leerling.getKlasID());
         values.put("groepId", leerling.getGroepID());
 
         int numrows = db.update(

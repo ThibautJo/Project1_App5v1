@@ -21,22 +21,23 @@ public class Oefening1 extends AppCompatActivity {
     public Conditie conditie = new Conditie();
 
     public final DatabaseHelper db = new DatabaseHelper(this);
-    MediaPlayer audioPlayer;
+    private MediaPlayer audioPlayer;
+    private Leerling leerling = new Leerling();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oefening1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         //
         // Initialisatie
         //
+        leerling = (Leerling) getIntent().getSerializableExtra("leerling");
 
-        // opzoeken welke groep & conditie men zit
-        // ######### (TEST GEGEVENS) (LEERLING NOG NIET BESCHIKBAAR) ###########
-        Leerling leerling = db.leesAlleLeerlingen().get(0);
+        toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
 
         groep = db.getGroep(leerling.getGroepID());
         // 1. oefenwoord --> oef 1 tot en met 6 --> dan de andere 3 woorden
@@ -58,14 +59,10 @@ public class Oefening1 extends AppCompatActivity {
             textView.setText(conditie.getWoord1());
 
             //afspelen audio
-            int audioFile = getApplicationContext().getResources().getIdentifier("oef1_"+conditie.getWoord1(), "raw", getApplicationContext().getPackageName());
-            audioPlayer = MediaPlayer.create(this, audioFile);
-
-            audioPlayer.start();
+            playAudio();
 
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             // crash activity??
             // terug naar start?
         }
@@ -74,16 +71,42 @@ public class Oefening1 extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                audioPlayer.stop();
-
                 Intent intent = new Intent(getApplicationContext(), Oefening2.class);
                 intent.putExtra("woord", conditie.getWoord1());
+                intent.putExtra("leerling", leerling);
+
 
                 startActivity(intent);
             }
         });
 
 
+    }
+
+    public void playAudio(){
+        int audioFile = getApplicationContext().getResources().getIdentifier("oef1_" + conditie.getWoord1(), "raw", getApplicationContext().getPackageName());
+        audioPlayer = MediaPlayer.create(this, audioFile);
+
+        audioPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        audioPlayer.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!audioPlayer.isPlaying())
+            playAudio();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        audioPlayer.stop();
     }
 
 }

@@ -50,7 +50,13 @@
         <activity
             android:name=".beheerleerlingen"
             android:label="@string/title_activity_beheerleerlingen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".kiesGroep"
+            android:label="@string/title_activity_kies_groep"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

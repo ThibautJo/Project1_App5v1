@@ -25,21 +25,6 @@ public class ListLeerlingen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listleerlingen, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.listLeerlingenView);
-        listLeerlingen = new ArrayList<>();
-        dataBaseHelper = new DatabaseHelper(getContext());
-        AdapterView.OnItemClickListener clickListener = null;
-
-        //invullen
-        ArrayAdapter<Leerling> adapter = new ArrayAdapter<Leerling>(getContext(), android.R.layout.simple_list_item_1, listLeerlingen);
-        clickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(),Toast.LENGTH_LONG).show();
-            }
-        };
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(clickListener);
 
         return view;
     }
@@ -55,10 +40,11 @@ public class ListLeerlingen extends Fragment {
         listLeerlingen = dataBaseHelper.leesAlleLeerlingenByKlasId(klasid);
 
         ArrayAdapter<Leerling> adapter = new ArrayAdapter<Leerling>(getContext(), android.R.layout.simple_list_item_1, listLeerlingen);
+
         clickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getContext(), voormeting.class);
                 Leerling leerling = dataBaseHelper.getLeerling(Integer.parseInt(listLeerlingen.get(position).getId().toString()));
@@ -70,9 +56,5 @@ public class ListLeerlingen extends Fragment {
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(clickListener);
-
-
-
-
     }
 }

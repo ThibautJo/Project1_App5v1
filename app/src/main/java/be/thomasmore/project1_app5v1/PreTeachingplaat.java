@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 public class PreTeachingplaat extends AppCompatActivity {
 
-    private MediaPlayer player;
+    private MediaPlayer audioPlayer;
+    private Leerling leerling = new Leerling();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +23,15 @@ public class PreTeachingplaat extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //
+        // initialisatie
+        leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+
+        //img settings (niet compleet)
         ImageView img = (ImageView) findViewById(R.id.klikBomen);
         img.bringToFront();
 
         //afspelen van woord
-        player = MediaPlayer.create(this, R.raw.preteachsound);
-
-        player.start();
+        playAudio();
     }
 
 
@@ -45,15 +47,41 @@ public class PreTeachingplaat extends AppCompatActivity {
 
             // eventuele aantal setting instellen (leerling object aanpassen?)
 
-            // next activity openen + audio stoppen
-            player.stop();
+            // next activity openen
 
             Intent intent = new Intent(this, Oefening1.class);
+            intent.putExtra("leerling", leerling);
+
             startActivity(intent);
 
         } else {
             Toast.makeText(this, "FOUT", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void playAudio(){
+        audioPlayer = MediaPlayer.create(this, R.raw.preteachsound);
+
+        audioPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        audioPlayer.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!audioPlayer.isPlaying())
+            playAudio();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        audioPlayer.stop();
     }
 }
