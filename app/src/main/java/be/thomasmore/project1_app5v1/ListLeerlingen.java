@@ -3,6 +3,7 @@ package be.thomasmore.project1_app5v1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,7 @@ public class ListLeerlingen extends Fragment {
         clickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(),Toast.LENGTH_LONG).show();
             }
         };
         listView.setAdapter(adapter);
@@ -58,10 +58,15 @@ public class ListLeerlingen extends Fragment {
         clickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getContext(), voormeting.class);
+                Leerling leerling = dataBaseHelper.getLeerling(Integer.parseInt(listLeerlingen.get(position).getId().toString()));
+
+                startActivity(intent);
             }
         };
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(clickListener);
 

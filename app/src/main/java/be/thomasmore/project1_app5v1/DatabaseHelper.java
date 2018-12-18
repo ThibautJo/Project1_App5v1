@@ -180,6 +180,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return lijst;
     }
+    public Leerling getLeerling(int id) {
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                "leerling",      // tabelnaam
+                new String[]{"id", "naam", "voornaam", "punten", "klasId", "groepId"}, // kolommen
+                "id = ?",  // selectie
+                new String[]{String.valueOf(id)}, // selectieparameters
+                null,           // groupby
+                null,           // having
+                null,           // sorting
+                null);
+
+        Leerling leerling = new Leerling();
+
+        if (cursor.moveToFirst()) {
+            leerling = new Leerling(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4),cursor.getInt(5));
+        }
+
+        cursor.close();
+        db.close();
+        return leerling;
+    }
 
     public List<Groep> leesAlleGroep() {
         List<Groep> lijst = new ArrayList<Groep>();
