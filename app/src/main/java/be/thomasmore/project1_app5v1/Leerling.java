@@ -1,8 +1,9 @@
 package be.thomasmore.project1_app5v1;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Leerling {
+public class Leerling implements Serializable {
 
     private Long id;
     private String naam;
