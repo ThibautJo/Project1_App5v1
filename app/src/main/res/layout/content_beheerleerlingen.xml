@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".beheerleerlingen"
+    tools:showIn="@layout/activity_beheerleerlingen">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp">
+
+        <Button
+            android:id="@+id/buttonCreateLeerling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Maak een nieuwe leerling" />
+
+        <TextView
+            android:id="@+id/textViewLeerlingCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonCreateLeerling"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="0 records found" />
+        <TextView
+            android:id="@+id/textViewInfoAanpasLeerling"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewLeerlingCount"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="Houd een leerling in om deze aan te passen of te verwijderen"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/voorUpload"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewLeerlingCount"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="Zelfde functionaliteiten als beheer klassen"
+            android:textStyle="bold"/>
+
+        <ScrollView
+            android:id="@+id/scrollViewRecordsLeerling"
+            android:layout_width="250px"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textViewInfoAanpasLeerling"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="0dp"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutRecordsLeerling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

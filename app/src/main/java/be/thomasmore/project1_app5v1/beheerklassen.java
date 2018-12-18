@@ -96,6 +96,10 @@ public class beheerklassen extends AppCompatActivity {
                 Intent beheerklassenintent = new Intent(this, beheerklassen.class);
                 startActivity(beheerklassenintent);
                 return true;
+            case R.id.beheer_leerlingen:
+                Intent beheerleerlingenintent = new Intent(this, beheerleerlingen.class);
+                startActivity(beheerleerlingenintent);
+                return true;
             default:
                 return false;
         }
