@@ -63,6 +63,7 @@ public class ListLeerlingen extends Fragment {
                 Intent intent = new Intent(getContext(), voormeting.class);
                 Leerling leerling = dataBaseHelper.getLeerling(Integer.parseInt(listLeerlingen.get(position).getId().toString()));
 
+                intent.putExtra("leerling", leerling);
                 startActivity(intent);
             }
         };
