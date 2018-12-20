@@ -8,7 +8,7 @@
     tools:context=".Oefening2"
     tools:showIn="@layout/activity_oefening2">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,6 +18,16 @@
             android:scaleType="fitCenter"
             android:id="@+id/oef2Foto"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/knopVerder"
+            android:textSize="16sp"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

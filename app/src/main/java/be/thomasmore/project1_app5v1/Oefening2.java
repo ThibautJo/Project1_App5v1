@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class Oefening2 extends AppCompatActivity {
@@ -43,6 +44,19 @@ public class Oefening2 extends AppCompatActivity {
 
         //audio
         playAudio();
+
+        Button btnNext = (Button) findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Oefening3.class);
+                intent.putExtra("woord", woord);
+                intent.putExtra("leerling", leerling);
+
+
+                startActivity(intent);
+            }
+        });
 
 
     }

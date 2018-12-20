@@ -19,5 +19,6 @@
     <string name="standaardImageDescr">Image</string>
     <string name="title_activity_beheerleerlingen">Beheer leerlingen</string>
     <string name="title_activity_kies_groep">kiesGroep</string>
+    <string name="title_activity_oefening3">Oefening3</string>
 
 </resources>
