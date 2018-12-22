@@ -53,6 +53,7 @@ public class Oefening3 extends AppCompatActivity {
         // views
         final ImageView imageViewJuist = (ImageView) findViewById(R.id.oef3Juist);
         final ImageView imageViewFout = (ImageView) findViewById(R.id.oef3Fout);
+        final TextView textView = (TextView) findViewById(R.id.oef3WoordUitleg);
 
 
         // groene knop
@@ -65,6 +66,7 @@ public class Oefening3 extends AppCompatActivity {
                     //volgende zin of next activity
                     if (woordUitbreiding.getStartValue() == 1) {
                         //volgende zin
+                        textView.setText(woordUitbreiding.getContextZinFout());
                         setAudio("oef3_"+woord.trim()+"_zin2");
                     } else {
                         // next activity
@@ -92,6 +94,7 @@ public class Oefening3 extends AppCompatActivity {
                         startNextActivity();
                     } else {
                         // volgende zin
+                        textView.setText(woordUitbreiding.getContextZinJuist());
                         setAudio("oef3_"+woord.trim()+"_zin1");
                     }
                 } else { // replay van zin
