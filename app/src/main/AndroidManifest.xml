@@ -61,6 +61,11 @@
             android:name=".Oefening3"
             android:label="@string/title_activity_oefening3"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Oefening4"
+            android:label="@string/title_activity_oefening4"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

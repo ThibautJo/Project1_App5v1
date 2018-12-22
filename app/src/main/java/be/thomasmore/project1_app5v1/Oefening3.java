@@ -1,6 +1,7 @@
 package be.thomasmore.project1_app5v1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -68,6 +69,7 @@ public class Oefening3 extends AppCompatActivity {
                     } else {
                         // next activity
                         Toast.makeText(getContext(), "next activity", Toast.LENGTH_SHORT).show();
+                        startNextActivity();
                     }
                 }
                 else {
@@ -87,6 +89,7 @@ public class Oefening3 extends AppCompatActivity {
                     if (woordUitbreiding.getStartValue() == 1) {
                         // 1ste zin dat afgespeeld was, was juiste zin en nu is 2de zin aan het afspelen is is correct aangeduid door gebruiker -> next activity
                         Toast.makeText(getContext(), "next activity", Toast.LENGTH_SHORT).show();
+                        startNextActivity();
                     } else {
                         // volgende zin
                         setAudio("oef3_"+woord.trim()+"_zin1");
@@ -103,6 +106,14 @@ public class Oefening3 extends AppCompatActivity {
         playAudio();
 
 
+    }
+
+    public void startNextActivity(){
+        Intent intent = new Intent(getApplicationContext(), Oefening3.class);
+        intent.putExtra("woord", woord);
+        intent.putExtra("leerling", leerling);
+
+        startActivity(intent);
     }
 
     public void setAudio(final String audioString) {
