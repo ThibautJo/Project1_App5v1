@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class WoordUitbreiding implements Serializable {
 
+    //
+    // Audio file naam -> context zin Juist EINDIGT op 1 context zin Fout audio file naam eindigt met 2
+    //
+
     private Long id;
     private String woord; // met lidwoord
     private String defenitie;

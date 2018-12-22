@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -21,10 +22,9 @@ import java.util.List;
 public class Oefening3 extends AppCompatActivity {
 
     private static Context mContext;
-    private String woord;
+    private String woord, audio = "";
 
-    private MediaPlayer audioPlayer = new MediaPlayer();
-    private MediaPlayer mediaPlayer2 = new MediaPlayer();
+    private MediaPlayer audioPlayer;
 
     private Leerling leerling = new Leerling();
     private WoordUitbreiding woordUitbreiding = new WoordUitbreiding();
@@ -37,6 +37,7 @@ public class Oefening3 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        audioPlayer = new MediaPlayer();
 
         //context declareren
         mContext = getApplicationContext();
@@ -52,42 +53,26 @@ public class Oefening3 extends AppCompatActivity {
         final ImageView imageViewJuist = (ImageView) findViewById(R.id.oef3Juist);
         final ImageView imageViewFout = (ImageView) findViewById(R.id.oef3Fout);
 
-        mediaPlayer2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                // aangepaste string speelt af
-                int audioFile = getContext().getResources().getIdentifier("oef3_duikbril_zin2", "raw", getContext().getPackageName());
-                mediaPlayer.create(getContext(), audioFile);
-
-                mediaPlayer.start();
-            }
-        });
 
         // groene knop
         imageViewJuist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // nieuwe audio file creeren + nieuwe onlistener
-
-
-                if (woordUitbreiding.getStartValue() == 1){ // eerste zin = juist
-
-                    // deze media player gebruiken om direct 2de zin af te laten spelen
-                    int audioFile = getContext().getResources().getIdentifier("oef3_volgende_zin", "raw", getContext().getPackageName());
-
-                    mediaPlayer2.create(getContext(), audioFile);
-                    mediaPlayer2.start();
-
-                    //string aanpassen van geluid dat afgespeeld moet worden
-
+                Toast.makeText(getContext(), "imageClickJuist", Toast.LENGTH_SHORT);
+                // Als getvalue 1 is dan word juist zin éérst getoond | daarna checken of 1ste zin aan het afspelen is
+                if (audio.substring(audio.length() - 1).equals("1")) {
+                    //volgende zin of next activity
+                    if (woordUitbreiding.getStartValue() == 1) {
+                        //volgende zin
+                        setAudio("oef3_"+woord.trim()+"_zin2");
+                    } else {
+                        // next activity
+                        Toast.makeText(getContext(), "next activity", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    // fout probeer nog eens geluid afspelen
-                    playAudio("oef3_fout_1", mediaPlayer2); //hardcoded
-                    // juiste zin terug afspelen
-                    // --> eventueel string aanpassen van geluid dat moet afgespeeld worden
+                else {
+                    playAudio();
                 }
-
             }
         });
 
@@ -95,48 +80,56 @@ public class Oefening3 extends AppCompatActivity {
         imageViewFout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // fout probeer nog eens geluid afspelen
 
+                // Als getvalue 2 is dan word foute zin éérst getoond | daarna checken of 1ste zin aan het afspelen is
+                if (audio.substring(audio.length() - 1).equals("2")) { // als men 1ste keer klikt
+                    //volgende zin of next activity
+                    if (woordUitbreiding.getStartValue() == 1) {
+                        // 1ste zin dat afgespeeld was, was juiste zin en nu is 2de zin aan het afspelen is is correct aangeduid door gebruiker -> next activity
+                        Toast.makeText(getContext(), "next activity", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // volgende zin
+                        setAudio("oef3_"+woord.trim()+"_zin1");
+                    }
+                } else { // replay van zin
+                    playAudio();
+                }
             }
         });
 
 
-        // executions
-
         // geluid afspelen
-        playAudio("oef3_duikbril_zin1", audioPlayer);// hardcoded
-
+        audio = "oef3_"+woord.trim()+"_zin1";
+        playAudio();
 
 
     }
 
-    public void playAudio(String audio, MediaPlayer player){
+    public void setAudio(final String audioString) {
+        // deze functie word opgeroepen voor het afspelen van het 2 de woord
+        audio = "oef3_volgende_zin";//standaard harcoded zin = goed
+        playAudio(); // tussen zin word afgespeeld
 
-        // views
-        final ImageView imageViewJuist = (ImageView) findViewById(R.id.oef3Juist);
-        final ImageView imageViewFout = (ImageView) findViewById(R.id.oef3Fout);
-
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        // oncompletelistener
+        audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                // Image click enablen
-                imageViewJuist.setClickable(true);
-                imageViewFout.setClickable(true);
-            }
-        });
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                // Image click Disablen als geluid speelt
-                imageViewJuist.setClickable(false);
-                imageViewFout.setClickable(false);
+                audio = audioString; //2 de zin word afgespeeld
+
+                playAudio();
             }
         });
 
-         int audioFile = getContext().getResources().getIdentifier(audio+"", "raw", getContext().getPackageName());
+    }
 
-        player.create(this, audioFile);
-        player.start();
+    public void playAudio() {
+        if(audioPlayer.isPlaying())
+            audioPlayer.stop();
+
+        int audioFile = getContext().getResources().getIdentifier(audio + "", "raw", getContext().getPackageName());
+
+        audioPlayer = MediaPlayer.create(this, audioFile);
+        audioPlayer.start();
     }
 
     //getter
@@ -152,19 +145,11 @@ public class Oefening3 extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.oef3WoordUitleg);
 
         // Juist of foute zin laten zien a.d.h.v. startValue
-        if (woordUitbreiding.getStartValue() == 1){ // juiste Zin éérst
+        if (woordUitbreiding.getStartValue() == 1) { // juiste Zin éérst
             textView.setText(woordUitbreiding.getContextZinJuist());
-        }
-        else { // foute zin éérst
+        } else { // foute zin éérst
             textView.setText(woordUitbreiding.getContextZinFout());
         }
-
-
-        // Image click disablen --> pas enable na geluid afgespeeld is
-        ImageView imageViewJuist = (ImageView) findViewById(R.id.oef3Juist);
-        ImageView imageViewFout = (ImageView) findViewById(R.id.oef3Fout);
-        imageViewJuist.setClickable(false);
-        imageViewFout.setClickable(false);
 
 
     }
@@ -178,10 +163,7 @@ public class Oefening3 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!audioPlayer.isPlaying())
-        {
 
-        }
     }
 
     @Override
