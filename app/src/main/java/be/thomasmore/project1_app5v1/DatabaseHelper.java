@@ -52,7 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "punten INTEGER," +
                 "FOREIGN KEY(klasId) REFERENCES klas(id)," +
                 "FOREIGN KEY(groepId) REFERENCES groep(id))";
-        ;
         db.execSQL(CREATE_TABLE_LEERLING);
 
         String CREATE_TABLE_WOORDUITBREIDING = "CREATE TABLE woorduitbreiding (" +
@@ -66,12 +65,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "startValue INTEGER)";
         db.execSQL(CREATE_TABLE_WOORDUITBREIDING);
 
+        String CREATE_TABLE_CORRELATIE = "CREATE TABLE correlatie (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "doelwoord TEXT," +
+                "woordJuist1 TEXT," +
+                "woordJuist2 TEXT," +
+                "woordJuist3 TEXT," +
+                "woordFout TEXT)";
+        db.execSQL(CREATE_TABLE_CORRELATIE);
+
         //invoegen van gegevens
         insertCondities(db);
         insertKlassen(db);
         insertGroepen(db);
         insertLeerlingen(db);
         insertWoordUitbreiding(db);
+        insertCorrelatie(db);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -80,6 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS groep");
         db.execSQL("DROP TABLE IF EXISTS leerling");
         db.execSQL("DROP TABLE IF EXISTS woorduitbreiding");
+        db.execSQL("DROP TABLE IF EXISTS correlatie");
 
         // Create tables again
         onCreate(db);
@@ -154,6 +164,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "VALUES(10, 'De zaklamp', 'Een zaklamp is een kleine lamp die je overal mee naartoe kunt nemen.', " +
                 "'De jongen schijnt met de zaklamp in de donkere grot.', 'Jef opent de deur met de zaklamp.', " +
                 "'Het licht, de batterij, in het donker, het paard', 'Zak-lamp', 2);");
+
+    }
+
+    private void insertCorrelatie(SQLiteDatabase db){
+        db.execSQL("INSERT INTO correlatie VALUES (1, 'duikbril','ogen','zee', 'zwemmen', 'schrijven');");
+        db.execSQL("INSERT INTO correlatie VALUES (2, 'klimtouw','klimmen','sterk', 'turnzaal', 'zwembad');");
+        db.execSQL("INSERT INTO correlatie VALUES (3, 'kroos','groen','vijver', 'lamp', 'eend');");
+        db.execSQL("INSERT INTO correlatie VALUES (4, 'riet','vijver','eend', 'bos', 'bril');");
+        db.execSQL("INSERT INTO correlatie VALUES (5, 'val','pijn','voorval', 'pleister', 'appel');");
+        db.execSQL("INSERT INTO correlatie VALUES (6, 'kompas','wandelen','rugzak', 'landkaart', 'bad');");
+        db.execSQL("INSERT INTO correlatie VALUES (7, 'steil','berg','beklimmen', 'trap', 'bloem');");
+        db.execSQL("INSERT INTO correlatie VALUES (8, 'zwaan','vijver','vleugels', 'wit', 'boek');");
+        db.execSQL("INSERT INTO correlatie VALUES (9, 'kamp','tent','kampvuur', 'slaapzak', 'deur');");
+        db.execSQL("INSERT INTO correlatie VALUES (10, 'zaklamp','licht','batterij', 'donker', 'paard');");
 
     }
 
@@ -395,6 +419,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return woorduitbreiding;
+    }
+
+    public List<Correlatie> leesAlleCorrelaties() {
+        List<Correlatie> lijst = new ArrayList<Correlatie>();
+
+        String selectQuery = "SELECT * FROM correlatie";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Correlatie correlatie = new Correlatie(cursor.getLong(0), cursor.getString(1), cursor.getString(2),
+                        cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                lijst.add(correlatie);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return lijst;
+    }
+
+    public Correlatie getCorrelatie(String filter) {
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "correlatie",      // tabelnaam
+                new String[]{"id", "doelwoord", "woordJuist1", "woordJuist2", "woordJuist3", "woordFout"}, // kolommen
+                "doelwoord LIKE ?",  // selectie
+                new String[]{"%" + filter + "%"}, // selectieparameters
+                null,           // groupby
+                null,           // having
+                null,           // sorting
+                null);
+
+        Correlatie correlatie = new Correlatie();
+
+        if (cursor.moveToFirst()) {
+            correlatie = new Correlatie(cursor.getLong(0), cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5));
+        }
+
+        cursor.close();
+        db.close();
+        return correlatie;
     }
 
     //
