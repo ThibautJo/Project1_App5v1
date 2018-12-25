@@ -112,7 +112,7 @@ public class Oefening3 extends AppCompatActivity {
     }
 
     public void startNextActivity(){
-        Intent intent = new Intent(getApplicationContext(), Oefening3.class);
+        Intent intent = new Intent(getApplicationContext(), Oefening4.class);
         intent.putExtra("woord", woord);
         intent.putExtra("leerling", leerling);
 
