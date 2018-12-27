@@ -3,8 +3,8 @@
 Een android app voor het trainen van de woordenschat bij kleuters.
 
 <h3>Android project by:</h3>  
-  Thibaut Joukes  
-  Thomas Vansprengel
+Thibaut Joukes </br>
+Thomas Vansprengel
 
 
 <h2><b>Image naming convention in drawable folder</b></h2>    
