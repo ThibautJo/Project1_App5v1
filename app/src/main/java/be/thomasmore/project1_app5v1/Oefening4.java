@@ -1,6 +1,8 @@
 package be.thomasmore.project1_app5v1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,7 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
 
     private Map<String, Integer> map = new HashMap<String, Integer>();
     private String woord;
+    private ArrayList<String> woordenAangeduid = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +67,21 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         //volgorde shuffelen
         shuffleArray(randomPictureIndex);
 
-        int i = 1;
-        for (int index : randomPictureIndex){
+
+        for (int i = 1; i <= randomPictureIndex.length; i++){
             //de 4 fotos opvullen in map
-            map.put("foto"+i, getResources().getIdentifier(correlatieByIndex.get(index-1), "drawable", getContext().getPackageName()));
-            i++;
+            map.put("foto"+i, getResources().getIdentifier(correlatieByIndex.get(i-1), "drawable", getContext().getPackageName()));
         }
 
         // afbeeldingen opvullen
+        int i = 1;
         for (int index : randomPictureIndex) {
             int viewID = getResources().getIdentifier("picture"+index, "id", getContext().getPackageName());
             ImageView view = (ImageView) findViewById(viewID);
-            view.setImageResource(map.get("foto"+index));
+            view.setTag(R.id.oef4PictureText, correlatieByIndex.get(i-1));
+            view.setImageResource(map.get("foto"+i));
+
+            i++;
         }
 
 
@@ -97,41 +104,58 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        Drawable drawable = getContext().getResources().getDrawable(R.drawable.oef4_image_background);
 
-        /*if (view instanceof RadioButton) {
-            if (((RadioButton) view).isSelected()) {
-                ((RadioButton)view).setSelected(false);
-                ((RadioButton) view).setChecked(false);
-            } else {
-                ((RadioGroup) view.getParent()).clearCheck();
-                ((RadioButton)view).setSelected(true);
-                ((RadioButton) view).setChecked(true);
-            }
-        }*/
+        Toast.makeText(getContext(), map.get("foto"+1).toString(), Toast.LENGTH_SHORT).show();
+
         if (view instanceof ImageView){
             ImageView imageView = (ImageView) view;
             GradientDrawable gradientDrawable = (GradientDrawable) imageView.getBackground();
 
-            if (!view.getTag().equals("green")){
+            if (view.getTag(R.id.oef4Kleur) == null || !view.getTag(R.id.oef4Kleur).equals("green")){
 
                 gradientDrawable.setStroke(2, Color.GREEN);
-
+                view.setTag(R.id.oef4Kleur, "green");
                 //
                 //TODO toevoegen aan soort image array dat gecheckt word als er 3 afbeelding aangeduid zijn
                 //
+                woordenAangeduid.add(view.getTag(R.id.oef4PictureText).toString());
+                if (woordenAangeduid.size() >= 3){
+                    // checken als alle woorden juist zijn en doorgaan naar volgende activity...
+                    if (!woordenAangeduid.contains(correlatie.getWoordFout().trim())){
+                        Intent intent = new Intent(getContext(), Oefening5.class);
+                        intent.putExtra("leerling", leerling);
+                        intent.putExtra("woord", woord);
 
+                        startActivity(intent);
+                    }
+                    else {
+                        // resetten van alle woorden...
+                        // activity recreaten
+                        this.recreate();
 
-                view.setTag("green");
+                    }
+                }
+
             }
             else {
                 gradientDrawable.setStroke(2, Color.BLACK);
-
+                view.setTag(R.id.oef4Kleur,"black");
                 //
                 //TODO verwijderen van soort image array
                 //
+                if (woordenAangeduid.size() > 0) {
+                    String text = view.getTag(R.id.oef4PictureText).toString();
+                    int i = 0;
+                    for (String value : woordenAangeduid) {
+                        if (text.equals(value)) {
+                            //verwijderen
+                            woordenAangeduid.remove(i);
+                            break;
+                        }
+                        i++;
+                    }
+                }
 
-                view.setTag("black");
             }
 
 
@@ -142,6 +166,18 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onStart() {
         super.onStart();
+
+        woordenAangeduid.clear();
+        //alle images terug black achtergrond zetten
+        //picture 1...4
+        for (int i = 1; i < 5; i++){
+            int viewID = getResources().getIdentifier("picture"+i, "id", getContext().getPackageName());
+            ImageView view = (ImageView) findViewById(viewID);
+            GradientDrawable gradientDrawable = (GradientDrawable) view.getBackground();
+            gradientDrawable.setStroke(2, Color.BLACK);
+            view.setTag(R.id.oef4Kleur, "black");
+        }
+
 
 
     }
