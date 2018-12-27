@@ -8,4 +8,90 @@
     tools:context=".Oefening5"
     tools:showIn="@layout/activity_oefening5">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/groepFout"
+                android:orientation="horizontal"
+                android:background="@drawable/oef5_image_background"
+                android:layout_weight="2">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/groepJuist"
+                android:orientation="horizontal"
+                android:background="@drawable/oef5_image_background"
+                android:layout_weight="1">
+        </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/groepFotos"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/picture1"
+                android:background="@drawable/oef5_image_background"
+                android:cropToPadding="true"
+                android:layout_margin="2dp"
+                android:src="@drawable/duikbril"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/picture2"
+                android:background="@drawable/oef5_image_background"
+                android:cropToPadding="true"
+                android:layout_margin="2dp"
+                android:src="@drawable/duikbril"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/picture3"
+                android:background="@drawable/oef5_image_background"
+                android:cropToPadding="true"
+                android:layout_margin="2dp"
+                android:src="@drawable/duikbril"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/picture4"
+                android:background="@drawable/oef5_image_background"
+                android:cropToPadding="true"
+                android:layout_margin="2dp"
+                android:src="@drawable/duikbril"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>
