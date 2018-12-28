@@ -32,8 +32,8 @@ import java.util.Random;
 public class Oefening5 extends AppCompatActivity {
 
     private static Context mContext;
-    private GestureDetector gestureDetector;
     private Leerling leerling = new Leerling();
+    private GestureDetector gestureDetector;
 
     private String woord;
 

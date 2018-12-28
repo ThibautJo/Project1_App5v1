@@ -23,7 +23,10 @@
     <string name="title_activity_oefening4">Oefening4</string>
     <string name="title_activity_oefening5">Oefening5</string>
 
-    <item type="id" name="oef4Kleur" />
-    <item type="id" name="oef4PictureText" />
+    <item name="oef4Kleur" type="id" />
+    <item name="oef4PictureText" type="id" />
+    <string name="title_activity_oefening61">Oefening61</string>
+    <string name="title_activity_oefening62">Oefening62</string>
+    <string name="title_activity_oefening63">Oefening63</string>
 
 </resources>
