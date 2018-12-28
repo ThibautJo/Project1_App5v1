@@ -41,7 +41,7 @@ public class beheerklassen extends AppCompatActivity {
     }
 
     public void leesKlassen(){
-        LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.linearLayoutRecords);
+        LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.linearLayoutRecordsKlas);
         linearLayoutRecords.removeAllViews();
 
 

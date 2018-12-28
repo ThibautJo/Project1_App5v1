@@ -5,13 +5,13 @@ import java.util.Date;
 
 public class Leerling implements Serializable {
 
-    private Long id;
-    private String naam;
-    private String voornaam;
-    private int punten;
+    public Long id;
+    public String naam;
+    public String voornaam;
+    public int punten;
 
-    private int klasId;
-    private int groepId;
+    public int klasId;
+    public int groepId;
 
 
     public Leerling() {
@@ -76,6 +76,6 @@ public class Leerling implements Serializable {
 
     @Override
     public String toString() {
-        return voornaam + " " + naam + " | Aantal punten: " + punten + " | Groep: ";
+        return voornaam + " " + naam;
     }
 }

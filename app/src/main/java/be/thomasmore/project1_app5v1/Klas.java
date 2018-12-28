@@ -44,6 +44,6 @@ public class Klas implements Serializable {
     @Override
     public String toString() {
 
-        return "Klas " + jaar + naam;
+        return id + " id Klas " + jaar + naam;
     }
 }

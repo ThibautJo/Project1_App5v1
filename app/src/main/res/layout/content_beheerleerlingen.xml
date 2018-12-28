@@ -40,17 +40,6 @@
             android:text="Houd een leerling in om deze aan te passen of te verwijderen"
             android:textStyle="bold"/>
 
-
-        <TextView
-            android:id="@+id/voorUpload"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewLeerlingCount"
-            android:gravity="center"
-            android:padding="1dp"
-            android:text="Zelfde functionaliteiten als beheer klassen"
-            android:textStyle="bold"/>
-
         <ScrollView
             android:id="@+id/scrollViewRecordsLeerling"
             android:layout_width="250px"

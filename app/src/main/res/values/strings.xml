@@ -10,6 +10,7 @@
     <string name="title_activity_oef3">Oef3</string>
     <string name="title_activity_oef4">Oef4</string>
     <string name="title_activity_oef5">Oef5</string>
+    <string name="SelecteerEenKlas">Selecteer een klas</string>
 
     <string name="foutAfbeeldingTag">fotoFout</string>
     <string name="juistAfbeeldingTag">fotoJuist</string>

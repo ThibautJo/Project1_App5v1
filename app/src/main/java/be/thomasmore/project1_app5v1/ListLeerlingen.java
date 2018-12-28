@@ -44,7 +44,6 @@ public class ListLeerlingen extends Fragment {
         clickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Leerling met id " + listLeerlingen.get(position).getId(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getContext(), voormeting.class);
                 Leerling leerling = dataBaseHelper.getLeerling(Integer.parseInt(listLeerlingen.get(position).getId().toString()));

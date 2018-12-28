@@ -9,6 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class beheerleerlingen extends AppCompatActivity {
 
@@ -18,6 +23,60 @@ public class beheerleerlingen extends AppCompatActivity {
         setContentView(R.layout.activity_beheerleerlingen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Button buttonCreateLeerling = (Button) findViewById(R.id.buttonCreateLeerling);
+        buttonCreateLeerling.setOnClickListener(new OnClickListenerCreateLeerling());
+
+        countLeerlingen();
+        leesLeerlingen();
+    }
+
+    public void countLeerlingen(){
+        int leerlingCount = new TableControllerLeerling(this).count();
+
+        TextView tvLeerlingCount = (TextView) findViewById(R.id.textViewLeerlingCount);
+        tvLeerlingCount.setText(leerlingCount + " aantal leerlingen gevonden.");
+
+    }
+
+    public void leesLeerlingen(){
+        LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.linearLayoutRecordsLeerling);
+        linearLayoutRecords.removeAllViews();
+
+        List<Leerling> leerlingen = new TableControllerLeerling(this).leesAlleLeerlingen();
+
+        if (leerlingen.size() > 0) {
+
+            for (Leerling obj : leerlingen) {
+
+                Long id = obj.id;
+                String leerlingVoornaam = obj.voornaam;
+                String leerlingNaam = obj.naam;
+                int leerlingPunten = obj.punten;
+                int klasId = obj.klasId;
+                int groepId = obj.groepId;
+
+                String textViewContents = leerlingVoornaam + " " + leerlingNaam;
+
+                TextView textViewLeerlingItem = new TextView(this);
+                textViewLeerlingItem.setPadding(0, 10, 0, 10);
+                textViewLeerlingItem.setText(textViewContents);
+                textViewLeerlingItem.setTag(Long.toString(id));
+                textViewLeerlingItem.setOnLongClickListener(new OnLongClickListenerLeerlingRecord());
+
+                linearLayoutRecords.addView(textViewLeerlingItem);
+            }
+
+        }
+
+        else {
+
+            TextView locationItem = new TextView(this);
+            locationItem.setPadding(8, 8, 8, 8);
+            locationItem.setText("Nog geen leerlingen.");
+
+            linearLayoutRecords.addView(locationItem);
+        }
     }
 
     @Override
