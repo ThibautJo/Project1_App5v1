@@ -20,7 +20,7 @@ public class OnLongClickListenerLeerlingRecord implements View.OnLongClickListen
     Context context;
     String id;
     Spinner spinner;
-    public Klas selectedKlas;
+    public Klas selectedKlas = new Klas();
 
 
     @Override
@@ -93,14 +93,15 @@ public class OnLongClickListenerLeerlingRecord implements View.OnLongClickListen
 
         spinner = (Spinner) formElementsView.findViewById(R.id.editTextLeerlingKlas);
         loadSpinnerData();
-        spinner.setOnItemSelectedListener(new ItemSelectedListener());
+        final ItemSelectedListener itemSelectedListener = new ItemSelectedListener();
+        spinner.setOnItemSelectedListener(itemSelectedListener);
 
 
 
         spinner.setSelection(editLeerling.klasId);
         editLeerlingNaam.setText(editLeerling.naam);
         editLeerlingVoornaam.setText(editLeerling.voornaam);
-        final ItemSelectedListener itemSelectedListener = new ItemSelectedListener();
+
 
 
 
@@ -117,7 +118,7 @@ public class OnLongClickListenerLeerlingRecord implements View.OnLongClickListen
                                 editLeerling.id = leerlingId;
                                 editLeerling.voornaam = editLeerlingVoornaam.getText().toString();
                                 editLeerling.naam = editLeerlingNaam.getText().toString();
-                                editLeerling.klasId = Math.toIntExact(itemSelectedListener.returnSelectedKlas().id);
+                                editLeerling.klasId = Math.toIntExact(itemSelectedListener.returnSelectedKlas().getId());
 
                                 boolean updateSuccessful = tableControllerLeerling.updateLeerling(editLeerling);
 
