@@ -38,7 +38,6 @@ public class Oefening3 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        mediaPlayer = new MediaPlayer(); // niet nodig denk ik
 
         //context declareren
         mContext = getApplicationContext();
@@ -160,7 +159,7 @@ public class Oefening3 extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-            }
+    }
 
     @Override
     protected void onPause() {
@@ -172,6 +171,8 @@ public class Oefening3 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (!audio.equals("") && audio != null)
+            playAudio();
     }
 
     @Override

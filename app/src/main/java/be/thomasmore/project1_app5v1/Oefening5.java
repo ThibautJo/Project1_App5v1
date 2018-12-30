@@ -313,6 +313,7 @@ public class Oefening5 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        playSound();
     }
 
     @Override
