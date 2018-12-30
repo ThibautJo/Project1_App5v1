@@ -1,13 +1,13 @@
 package be.thomasmore.project1_app5v1;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,8 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-
-public class voormeting extends AppCompatActivity {
+public class nameting extends AppCompatActivity {
 
     private String[] voormetingWoorden = new String[]{"duikbril", "klimtouw", "kroos", "riet", "val", "kompas", "steil", "zwaan", "kamp", "zaklamp"};
     private int voormetingIndex = 0; // index 0 telt niet mee voor punten --> oefenwoord
@@ -31,10 +30,9 @@ public class voormeting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voormeting);
+        setContentView(R.layout.activity_nameting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // initialiseren voor men toolbar setsupportaction doet --> anders kan men dit later niet meer veranderen
-        toolbar.setTitle(""); // als dit niet gezet is pakt men de standaard text in string xml file
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         // leerling declareren
@@ -45,7 +43,6 @@ public class voormeting extends AppCompatActivity {
 
         //afbeeldingen opvullen
         afbeeldingenOpvullen();
-
 
         //Listeners
         ((ImageView) findViewById(R.id.foto1)).setOnClickListener(new MyImageOnclickListener());
@@ -90,7 +87,6 @@ public class voormeting extends AppCompatActivity {
         playAudio(voormetingWoorden[voormetingIndex]);
 
     }
-
     public class MyImageOnclickListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
@@ -104,7 +100,7 @@ public class voormeting extends AppCompatActivity {
                 //TODO puntverdeling
             }
 
-            if (voormetingIndex < voormetingWoorden.length-1){
+            if (voormetingIndex < voormetingWoorden.length){
                 voormetingIndex += 1;
                 afbeeldingenOpvullen();
             }
@@ -118,8 +114,8 @@ public class voormeting extends AppCompatActivity {
     // kind moet op juiste afbeelding klikken
     public void activityNext() {
 
-        Intent intent = new Intent(this, kiesGroep.class);
-        intent.putExtra("leerling", leerling);
+        Intent intent = new Intent(this, Project1_App5v1.class);
+        leerling = new Leerling();
 
         startActivity(intent);
     }
@@ -176,4 +172,5 @@ public class voormeting extends AppCompatActivity {
         if (mediaPlayer != null)
             mediaPlayer.stop();
     }
+
 }

@@ -17,7 +17,7 @@ public class Oefening2 extends AppCompatActivity {
 
     private static Context mContext;
     private String woord;
-    private MediaPlayer audioPlayer;
+    private MediaPlayer mediaPlayer;
     private Leerling leerling = new Leerling();
 
     @Override
@@ -61,10 +61,13 @@ public class Oefening2 extends AppCompatActivity {
 
     }
     public void playAudio(){
-        int audioFile = getContext().getResources().getIdentifier("oef2_" + woord, "raw", getContext().getPackageName());
-        audioPlayer = MediaPlayer.create(this, audioFile);
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
 
-        audioPlayer.start();
+        int audioFile = getContext().getResources().getIdentifier("oef2_" + woord, "raw", getContext().getPackageName());
+        mediaPlayer = MediaPlayer.create(this, audioFile);
+
+        mediaPlayer.start();
     }
 
     //getter
@@ -75,20 +78,20 @@ public class Oefening2 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!audioPlayer.isPlaying())
-            playAudio();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
 }

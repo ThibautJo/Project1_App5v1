@@ -2,12 +2,14 @@ package be.thomasmore.project1_app5v1;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,8 @@ public class Oefening5 extends AppCompatActivity {
     private ArrayList<Bitmap> bitmaps = new ArrayList<>();
     private String[] bitmapsString = new String[]{"juist", "juist", "juist", "fout"};
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +62,9 @@ public class Oefening5 extends AppCompatActivity {
 
         //images ophalen en opvullen
         for (int i = 1; i < 4; i++) {
-            int resId = getResources().getIdentifier("oef5_" + woord + "_"+i, "drawable", getContext().getPackageName());
+            int resId = getResources().getIdentifier("oef5_" + woord + "_" + i, "drawable", getContext().getPackageName());
             bitmaps.add(BitmapFactory.decodeResource(getResources(), resId));
-            if (i == 3){
+            if (i == 3) {
                 //het foute woord er ook inzetten
                 resId = getResources().getIdentifier("oef5_" + woord + "_fout", "drawable", getContext().getPackageName());
                 bitmaps.add(BitmapFactory.decodeResource(getResources(), resId));
@@ -76,9 +80,9 @@ public class Oefening5 extends AppCompatActivity {
         int i = 1;
         for (Bitmap map : bitmaps) {
 
-            int viewID = getResources().getIdentifier("picture"+i, "id", getContext().getPackageName());
+            int viewID = getResources().getIdentifier("picture" + i, "id", getContext().getPackageName());
             ImageView imageView = findViewById(viewID);
-            imageView.setTag(bitmapsString[i-1]);
+            imageView.setTag(bitmapsString[i - 1]);
             imageView.setImageBitmap(map);
 
             i++;
@@ -101,17 +105,30 @@ public class Oefening5 extends AppCompatActivity {
         gradientDrawable = (GradientDrawable) findViewById(R.id.groepJuist).getBackground();
         gradientDrawable.setStroke(2, Color.GREEN);
 
+        //geluid afspelen
+        playSound();
+
 
     }
 
-    public void shuffleBitmaps(ArrayList<Bitmap> bitmaps){
+    public void playSound() {
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+
+        //TODO gepaste audio afspelen
+        int resRawId = getResources().getIdentifier("oef5_" + woord, "raw", getContext().getPackageName());
+        mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+
+        mediaPlayer.start();
+    }
+
+    public void shuffleBitmaps(ArrayList<Bitmap> bitmaps) {
 
         //TODO shuffelen --> voorbeeld oef 4
 
         // shuffelen van bitmaps array + bitmapString
         Random rnd = new Random();
-        for (int i = bitmaps.size() - 1; i > 0; i--)
-        {
+        for (int i = bitmaps.size() - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
             // Simple swap
             Bitmap a = bitmaps.get(index);
@@ -127,12 +144,11 @@ public class Oefening5 extends AppCompatActivity {
 
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (gestureDetector.onTouchEvent(motionEvent)){
+            if (gestureDetector.onTouchEvent(motionEvent)) {
                 // when the user just clicks the image --> terugzetten
                 Toast.makeText(getContext(), "Geklikt", Toast.LENGTH_SHORT).show();
 
-            }
-            else {
+            } else {
                 // when the user drags the image
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -162,24 +178,77 @@ public class Oefening5 extends AppCompatActivity {
                     // do nothing
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    Toast.makeText(getContext(), "entered", Toast.LENGTH_SHORT).show();
-
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    Toast.makeText(getContext(), "exited", Toast.LENGTH_SHORT).show();
-
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
-                    owner.removeView(view);
-                    LinearLayout container = (LinearLayout) v;
-                    container.addView(view);
+
+                    int LinearViewID = v.getId();
+                    Boolean check = true;
+                    Toast.makeText(getContext(), LinearViewID + " " + R.id.groepJuist, Toast.LENGTH_SHORT).show();
+
+                    if (LinearViewID == R.id.groepJuist && ((LinearLayout) findViewById(LinearViewID)).getChildCount() == 3) {
+                        Toast.makeText(getContext(), "groepjuist zit vol", Toast.LENGTH_SHORT).show();
+                        check = false;
+                    }
+                    if (LinearViewID == R.id.groepFout && ((LinearLayout) findViewById(LinearViewID)).getChildCount() == 1) {
+                        Toast.makeText(getContext(), "groepfout zit vol", Toast.LENGTH_SHORT).show();
+                        check = false;
+                    }
+
+                    if (check) {
+                        owner.removeView(view);
+                        LinearLayout container = (LinearLayout) v;
+                        container.addView(view);
+                    }
+
                     view.setVisibility(View.VISIBLE);
+
+
+                    //TODO checken of alle linearviews goed gevuld zijn
+                    if (((LinearLayout) findViewById(R.id.groepJuist)).getChildCount() == 3 && ((LinearLayout) findViewById(R.id.groepFout)).getChildCount() == 1) {
+                        if (((LinearLayout) findViewById(R.id.groepFout)).getChildAt(0).getTag().equals("fout")) {
+
+                            if (mediaPlayer != null)
+                                mediaPlayer.stop();
+
+                            //gepaste audio afspelen
+                            int resRawId = getResources().getIdentifier("oef5_goed", "raw", getContext().getPackageName());
+                            mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+                            mediaPlayer.start();
+
+                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mediaPlayer) {
+                                    // next activity
+                                    nextActivity();
+                                }
+                            });
+
+                        } else {
+                            //oefening recreaten
+                            if (mediaPlayer != null)
+                                mediaPlayer.stop();
+
+                            //gepaste audio afspelen
+                            int resRawId = getResources().getIdentifier("oef5_fout", "raw", getContext().getPackageName());
+                            mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+                            mediaPlayer.start();
+
+                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mediaPlayer) {
+                                    Oefening5.this.recreate();
+                                }
+                            });
+                        }
+                    }
+
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    Toast.makeText(getContext(), "ended", Toast.LENGTH_SHORT).show();
 
                     View view2 = (View) event.getLocalState();
 
@@ -190,6 +259,29 @@ public class Oefening5 extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    private void nextActivity() {
+        Intent intent = new Intent();
+
+        switch (leerling.getGroepID()) {
+            case 0:
+                intent = new Intent(getContext(), Oefening61.class);
+                break;
+            case 1:
+                intent = new Intent(getContext(), Oefening62.class);
+                break;
+            case 2:
+                intent = new Intent(getContext(), Oefening63.class);
+                break;
+            default:
+                break;
+        }
+
+        intent.putExtra("leerling", leerling);
+        intent.putExtra("woord", woord);
+
+        startActivity(intent);
     }
 
     private class SingleTapConfirm extends SimpleOnGestureListener {
@@ -211,4 +303,22 @@ public class Oefening5 extends AppCompatActivity {
         return mContext;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+    }
 }

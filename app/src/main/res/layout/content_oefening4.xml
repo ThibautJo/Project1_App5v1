@@ -17,6 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/oef4Titel"
             android:text="duikbril"
             android:textAlignment="center"
             android:textSize="28dp" />
@@ -37,7 +38,7 @@
                 android:cropToPadding="true"
                 android:padding="2dp"
                 android:tag="black"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/duikbril" />
 
 
@@ -50,7 +51,7 @@
                 android:cropToPadding="true"
                 android:padding="2dp"
                 android:tag="black"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/duikbril" />
 
 
@@ -70,7 +71,7 @@
                 android:cropToPadding="true"
                 android:padding="2dp"
                 android:tag="black"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/duikbril" />
 
 
@@ -83,7 +84,7 @@
                 android:cropToPadding="true"
                 android:padding="2dp"
                 android:tag="black"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/duikbril" />
 
 

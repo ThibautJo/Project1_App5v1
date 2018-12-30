@@ -25,7 +25,7 @@ public class Oefening3 extends AppCompatActivity {
     private static Context mContext;
     private String woord, audio = "";
 
-    private MediaPlayer audioPlayer;
+    private MediaPlayer mediaPlayer;
 
     private Leerling leerling = new Leerling();
     private WoordUitbreiding woordUitbreiding = new WoordUitbreiding();
@@ -38,7 +38,7 @@ public class Oefening3 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        audioPlayer = new MediaPlayer();
+        mediaPlayer = new MediaPlayer(); // niet nodig denk ik
 
         //context declareren
         mContext = getApplicationContext();
@@ -60,21 +60,19 @@ public class Oefening3 extends AppCompatActivity {
         imageViewJuist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "imageClickJuist", Toast.LENGTH_SHORT);
                 // Als getvalue 1 is dan word juist zin éérst getoond | daarna checken of 1ste zin aan het afspelen is
                 if (audio.substring(audio.length() - 1).equals("1")) {
                     //volgende zin of next activity
                     if (woordUitbreiding.getStartValue() == 1) {
                         //volgende zin
                         textView.setText(woordUitbreiding.getContextZinFout());
-                        setAudio("oef3_"+woord.trim()+"_zin2");
+                        setAudio("oef3_" + woord.trim() + "_zin2");
                     } else {
                         // next activity
                         Toast.makeText(getContext(), "next activity", Toast.LENGTH_SHORT).show();
                         startNextActivity();
                     }
-                }
-                else {
+                } else {
                     playAudio();
                 }
             }
@@ -95,7 +93,7 @@ public class Oefening3 extends AppCompatActivity {
                     } else {
                         // volgende zin
                         textView.setText(woordUitbreiding.getContextZinJuist());
-                        setAudio("oef3_"+woord.trim()+"_zin1");
+                        setAudio("oef3_" + woord.trim() + "_zin1");
                     }
                 } else { // replay van zin
                     playAudio();
@@ -104,14 +102,21 @@ public class Oefening3 extends AppCompatActivity {
         });
 
 
-        // geluid afspelen
-        audio = "oef3_"+woord.trim()+"_zin1";
+        // geluid afspelen --> onstart is string audio gedeclareerd
+        if (woordUitbreiding.getStartValue() == 1) {
+            textView.setText(woordUitbreiding.getContextZinJuist());
+            audio = "oef3_" + woord + "_zin1";
+        } else { // foute zin éérst
+            textView.setText(woordUitbreiding.getContextZinFout());
+            audio = "oef3_" + woord + "_zin2";
+        }
+
         playAudio();
 
 
     }
 
-    public void startNextActivity(){
+    public void startNextActivity() {
         Intent intent = new Intent(getApplicationContext(), Oefening4.class);
         intent.putExtra("woord", woord);
         intent.putExtra("leerling", leerling);
@@ -119,13 +124,14 @@ public class Oefening3 extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // deze functie word opgeroepen voor het afspelen van het 2 de woord
     public void setAudio(final String audioString) {
-        // deze functie word opgeroepen voor het afspelen van het 2 de woord
+
         audio = "oef3_volgende_zin";//standaard harcoded zin = goed
         playAudio(); // tussen zin word afgespeeld
 
         // oncompletelistener
-        audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 audio = audioString; //2 de zin word afgespeeld
@@ -137,13 +143,13 @@ public class Oefening3 extends AppCompatActivity {
     }
 
     public void playAudio() {
-        if(audioPlayer.isPlaying())
-            audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
 
         int audioFile = getContext().getResources().getIdentifier(audio + "", "raw", getContext().getPackageName());
 
-        audioPlayer = MediaPlayer.create(this, audioFile);
-        audioPlayer.start();
+        mediaPlayer = MediaPlayer.create(this, audioFile);
+        mediaPlayer.start();
     }
 
     //getter
@@ -154,36 +160,25 @@ public class Oefening3 extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // titel text opvullen
-        TextView textView = (TextView) findViewById(R.id.oef3WoordUitleg);
-
-        // Juist of foute zin laten zien a.d.h.v. startValue
-        if (woordUitbreiding.getStartValue() == 1) { // juiste Zin éérst
-            textView.setText(woordUitbreiding.getContextZinJuist());
-        } else { // foute zin éérst
-            textView.setText(woordUitbreiding.getContextZinFout());
-        }
-
-
-    }
+            }
 
     @Override
     protected void onPause() {
         super.onPause();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
 }

@@ -47,6 +47,7 @@ public class kiesGroep extends AppCompatActivity {
         if (check){
             Intent intent = new Intent(this, PreTeachingplaat.class);
             intent.putExtra("leerling", leerling);
+            intent.putExtra("woord", "duikbril");
 
             startActivity(intent);
         }

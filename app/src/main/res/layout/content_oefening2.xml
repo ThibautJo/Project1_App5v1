@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
+            android:layout_margin="50dp"
             android:id="@+id/oef2Foto"/>
-
         <Button
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"

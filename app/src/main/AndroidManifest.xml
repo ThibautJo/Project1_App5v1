@@ -86,6 +86,11 @@
             android:name=".Oefening63"
             android:label="@string/title_activity_oefening63"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".nameting"
+            android:label="@string/title_activity_nameting"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
