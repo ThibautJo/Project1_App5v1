@@ -43,10 +43,11 @@
 
         <ScrollView
             android:id="@+id/scrollViewRecords"
-            android:layout_width="250px"
+            android:layout_width="400px"
             android:layout_height="match_parent"
             android:layout_below="@+id/textViewInfoAanpas"
             android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="0dp"
             android:clipToPadding="false">
 

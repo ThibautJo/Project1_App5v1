@@ -1,5 +1,6 @@
 package be.thomasmore.project1_app5v1;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,19 +11,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Oefening1 extends AppCompatActivity {
 
-    public String Oefenwoord = "";
-    public String Trainwoord = "";
+    private static Context mContext;
 
     public Groep groep = new Groep();
     public Conditie conditie = new Conditie();
 
     public final DatabaseHelper db = new DatabaseHelper(this);
-    private MediaPlayer audioPlayer;
+    private MediaPlayer mediaPlayer;
     private Leerling leerling = new Leerling();
+    private String woord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +34,14 @@ public class Oefening1 extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        //
-        // Initialisatie
-        //
+        //context declareren
+        mContext = getApplicationContext();
+
+        // woord + leerling ophalen en ophalen van correlatie van het woord
+        woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
-
-        groep = db.getGroep(leerling.getGroepID());
-        // 1. oefenwoord --> oef 1 tot en met 6 --> dan de andere 3 woorden
-        //conditie = db.getConditie(groep.getConditie_id1());
-        conditie = db.getConditie(0); // oefenwoord 'duikbril'
-
 
         ImageView imageView = (ImageView) findViewById(R.id.oef1Foto);
         TextView textView = (TextView) findViewById(R.id.oef1Titel);
@@ -51,20 +49,18 @@ public class Oefening1 extends AppCompatActivity {
 
 
         try {
-            Context context = imageView.getContext();
 
-            int id = context.getResources().getIdentifier(conditie.getWoord1(), "drawable", context.getPackageName());
+            int id = getResources().getIdentifier(woord, "drawable", getContext().getPackageName());
 
             imageView.setImageResource(id);
-            textView.setText(conditie.getWoord1());
+            textView.setText(woord);
 
             //afspelen audio
             playAudio();
 
 
         } catch (Exception e) {
-            // crash activity??
-            // terug naar start?
+            Toast.makeText(getContext(), "error bij laden", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -72,7 +68,7 @@ public class Oefening1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Oefening2.class);
-                intent.putExtra("woord", conditie.getWoord1());
+                intent.putExtra("woord", woord);
                 intent.putExtra("leerling", leerling);
 
 
@@ -84,29 +80,37 @@ public class Oefening1 extends AppCompatActivity {
     }
 
     public void playAudio(){
-        int audioFile = getApplicationContext().getResources().getIdentifier("oef1_" + conditie.getWoord1(), "raw", getApplicationContext().getPackageName());
-        audioPlayer = MediaPlayer.create(this, audioFile);
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
 
-        audioPlayer.start();
+        int audioFile = getApplicationContext().getResources().getIdentifier("oef1_" + woord, "raw", getApplicationContext().getPackageName());
+        mediaPlayer = MediaPlayer.create(this, audioFile);
+
+        mediaPlayer.start();
+    }
+
+    public static Context getContext(){
+        return mContext;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!audioPlayer.isPlaying())
-            playAudio();
+        playAudio();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audioPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
     }
 
 }

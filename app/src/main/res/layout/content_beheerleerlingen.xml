@@ -42,7 +42,7 @@
 
         <ScrollView
             android:id="@+id/scrollViewRecordsLeerling"
-            android:layout_width="250px"
+            android:layout_width="400px"
             android:layout_height="match_parent"
             android:layout_below="@+id/textViewInfoAanpasLeerling"
             android:layout_centerInParent="true"

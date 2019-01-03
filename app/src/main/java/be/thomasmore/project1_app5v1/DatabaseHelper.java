@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void insertCondities(SQLiteDatabase db) {
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (0, 'duikbril','','');");
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (1, 'klimtouw', 'kroos', 'riet');");
-        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (2, 'val', 'compas', 'steil');");
+        db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (2, 'val', 'kompas', 'steil');");
         db.execSQL("INSERT INTO conditie (id, woord1, woord2, woord3) VALUES (3, 'zwaan', 'kamp', 'zaklamp');");
     }
 

@@ -16,6 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/voormetingTitel"
             android:textAlignment="center"
             android:text="duikbril"
             android:textSize="28dp"/>
@@ -31,20 +32,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/foto1"
-                android:tag="@string/juistAfbeeldingTag"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="ImageClicked"
-                android:src="@drawable/voormeting_duikbril" />
+                android:src="@drawable/voormeting_duikbril_1" />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/foto2"
-                android:tag="@string/foutAfbeeldingTag"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="ImageClicked"
-                android:src="@drawable/voormeting_foto1"
+                android:src="@drawable/voormeting_duikbril_1"
                 />
 
         </LinearLayout>
@@ -60,21 +57,17 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/foto3"
-                android:tag="@string/foutAfbeeldingTag"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="ImageClicked"
-                android:src="@drawable/voormeting_foto2"
+                android:src="@drawable/voormeting_duikbril_1"
                 />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/foto4"
-                android:tag="@string/foutAfbeeldingTag"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="ImageClicked"
-                android:src="@drawable/voormeting_foto3"
+                android:src="@drawable/voormeting_duikbril_1"
                 />
 
         </LinearLayout>

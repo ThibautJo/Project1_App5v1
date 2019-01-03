@@ -19,4 +19,16 @@ Oefening 4 heeft per woord verschillende foto's nodig. Deze benaming moeten deze
 Oefening 5 bestaat uit 4 foto's waarvan 3 juist passen bij het doelwoord en 1 helemaal niet. Om deze foto's bij elkaar te kunnen houden gaan we dit doen met een prefix in de benaming. Zo zullen de afbeelding passend bij het woord duikbril als volgt genoemd worden: oef5_duikbril_1, oef5_duikbril_2, oef5_duikbril_3, oef5_duikbril_fout .
 
 <h4>Oefening 6</h4>  
-Oefening 5.  
+Zelfde bij oefening 1 - 3.  
+</br>
+<h2><b>Sound naming convention in raw folder</b></h2>  
+<h4>Oefening 1 & oefening 2</h4>
+oef1_naam (oef1_duikbril)</br>
+oef2_naam (oef2_duikbril)    
+
+<h4>Oefening 3</h4>
+oef3_naam_zin1 (oef3_duikbril_zin1)</br>
+oef3_naam_zin2 (oef3_duikbril_zin2)  
+
+<h4>Oefening 5</h4>
+oef5_naam (oef5_duikbril)</br>

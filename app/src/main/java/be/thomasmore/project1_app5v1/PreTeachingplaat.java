@@ -15,6 +15,7 @@ public class PreTeachingplaat extends AppCompatActivity {
 
     private MediaPlayer audioPlayer;
     private Leerling leerling = new Leerling();
+    private String woord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,8 @@ public class PreTeachingplaat extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // initialisatie
+        // woord + leerling ophalen en ophalen van correlatie van het woord
+        woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
 
         //img settings (niet compleet)
@@ -51,6 +53,7 @@ public class PreTeachingplaat extends AppCompatActivity {
 
             Intent intent = new Intent(this, Oefening1.class);
             intent.putExtra("leerling", leerling);
+            intent.putExtra("woord", "duikbril");
 
             startActivity(intent);
 

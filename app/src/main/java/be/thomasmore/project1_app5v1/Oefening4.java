@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +38,8 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     private String woord;
     private ArrayList<String> woordenAangeduid = new ArrayList<String>();
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,10 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         correlatie = new DatabaseHelper(getContext()).getCorrelatie(woord);
+
+        TextView textView = findViewById(R.id.oef4Titel);
+        textView.setText(woord);
+
         // correkate in arraylist steken zodat we erdoor kunnen loopen
         correlatieByIndex = correlatie.getCorrelatieArraylist();
 
@@ -83,6 +93,9 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
 
             i++;
         }
+
+        //intro geluid afspelen
+        playSound();
 
 
 
@@ -122,16 +135,44 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                 if (woordenAangeduid.size() >= 3){
                     // checken als alle woorden juist zijn en doorgaan naar volgende activity...
                     if (!woordenAangeduid.contains(correlatie.getWoordFout().trim())){
-                        Intent intent = new Intent(getContext(), Oefening5.class);
-                        intent.putExtra("leerling", leerling);
-                        intent.putExtra("woord", woord);
 
-                        startActivity(intent);
+                        if (mediaPlayer != null)
+                            mediaPlayer.stop();
+
+                        //gepaste audio afspelen
+                        int resRawId = getResources().getIdentifier("oef4_goed", "raw", getContext().getPackageName());
+                        mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+                        mediaPlayer.start();
+
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                Intent intent = new Intent(getContext(), Oefening5.class);
+                                intent.putExtra("leerling", leerling);
+                                intent.putExtra("woord", woord);
+
+                                startActivity(intent);
+                            }
+                        });
                     }
                     else {
                         // resetten van alle woorden...
                         // activity recreaten
-                        this.recreate();
+                        if (mediaPlayer != null)
+                            mediaPlayer.stop();
+
+                        //gepaste audio afspelen
+                        int resRawId = getResources().getIdentifier("oef4_fout", "raw", getContext().getPackageName());
+                        mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+                        mediaPlayer.start();
+
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                Oefening4.this.recreate();
+                            }
+                        });
+
 
                     }
                 }
@@ -163,6 +204,17 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    public void playSound() {
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+
+        //TODO gepaste audio afspelen
+        int resRawId = getResources().getIdentifier("oef4_intro", "raw", getContext().getPackageName());
+        mediaPlayer = MediaPlayer.create(getContext(), resRawId);
+
+        mediaPlayer.start();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -186,4 +238,23 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         return mContext;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playSound();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+    }
 }
