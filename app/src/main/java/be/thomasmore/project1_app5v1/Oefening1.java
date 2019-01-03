@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 
 public class Oefening1 extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class Oefening1 extends AppCompatActivity {
     public Conditie conditie = new Conditie();
 
     public final DatabaseHelper db = new DatabaseHelper(this);
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
     private MediaPlayer mediaPlayer;
     private Leerling leerling = new Leerling();
     private String woord;
@@ -40,6 +43,7 @@ public class Oefening1 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
 
@@ -70,6 +74,7 @@ public class Oefening1 extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Oefening2.class);
                 intent.putExtra("woord", woord);
                 intent.putExtra("leerling", leerling);
+                intent.putExtra("map", aantalFouten);
 
 
                 startActivity(intent);

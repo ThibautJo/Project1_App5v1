@@ -13,12 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.util.HashMap;
+
 public class Oefening2 extends AppCompatActivity {
 
     private static Context mContext;
     private String woord;
     private MediaPlayer mediaPlayer;
     private Leerling leerling = new Leerling();
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class Oefening2 extends AppCompatActivity {
         // woord + leerling ophalen van Oefening 1
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
 
@@ -52,6 +57,7 @@ public class Oefening2 extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Oefening3.class);
                 intent.putExtra("woord", woord);
                 intent.putExtra("leerling", leerling);
+                intent.putExtra("map", aantalFouten);
 
 
                 startActivity(intent);

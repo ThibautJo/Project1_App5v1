@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Oefening3 extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class Oefening3 extends AppCompatActivity {
 
     private Leerling leerling = new Leerling();
     private WoordUitbreiding woordUitbreiding = new WoordUitbreiding();
-
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,10 @@ public class Oefening3 extends AppCompatActivity {
         // woord + leerling ophalen van Oefening 1
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten.put("oefening3", 0);
+
+
 
         // uitbreiding woord opzoeken d.m.v. woord
         woordUitbreiding = new DatabaseHelper(getContext()).getWoordUitbreidingen(woord.toLowerCase());
@@ -72,6 +77,7 @@ public class Oefening3 extends AppCompatActivity {
                         startNextActivity();
                     }
                 } else {
+                    aantalFouten.put("oefening3", aantalFouten.get("oefening3")+1);
                     playAudio();
                 }
             }
@@ -95,6 +101,9 @@ public class Oefening3 extends AppCompatActivity {
                         setAudio("oef3_" + woord.trim() + "_zin1");
                     }
                 } else { // replay van zin
+                    if (!woord.equals("duikbril")){
+                        aantalFouten.put("oefening3", aantalFouten.get("oefening3")+1);
+                    }
                     playAudio();
                 }
             }
@@ -119,6 +128,7 @@ public class Oefening3 extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Oefening4.class);
         intent.putExtra("woord", woord);
         intent.putExtra("leerling", leerling);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

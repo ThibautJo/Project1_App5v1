@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -23,6 +24,7 @@ public class voormeting extends AppCompatActivity {
     private String[] voormetingWoorden = new String[]{"duikbril", "klimtouw", "kroos", "riet", "val", "kompas", "steil", "zwaan", "kamp", "zaklamp"};
     private int voormetingIndex = 0; // index 0 telt niet mee voor punten --> oefenwoord
     private String[] voormetingVolgorde = new String[]{"juist","fout","fout","fout"};
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
 
     private static Context mContext;
     private Leerling leerling = new Leerling();
@@ -40,6 +42,7 @@ public class voormeting extends AppCompatActivity {
         // leerling declareren
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         mContext = getApplicationContext();
+        aantalFouten.put("voormeting", 0);
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
 
@@ -97,11 +100,11 @@ public class voormeting extends AppCompatActivity {
             // volgende woord tonen, ondanks het goed of fout is
             // fout en goed moet geregistreerd worden
 
-            if (view.getTag().equals("juist")){
-                //TODO puntverdeling
-            }
-            else {
-                //TODO puntverdeling
+            if (!view.getTag().equals("juist")){
+                //puntverdeling
+                if (!voormetingWoorden[voormetingIndex].equals("duikbril")){
+                    aantalFouten.put("voormeting", aantalFouten.get(1)+1);
+                }
             }
 
             if (voormetingIndex < voormetingWoorden.length-1){
@@ -120,6 +123,7 @@ public class voormeting extends AppCompatActivity {
 
         Intent intent = new Intent(this, kiesGroep.class);
         intent.putExtra("leerling", leerling);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

@@ -91,6 +91,11 @@
             android:name=".nameting"
             android:label="@string/title_activity_nameting"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PuntenOverzicht"
+            android:label="@string/title_activity_punten_overzicht"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

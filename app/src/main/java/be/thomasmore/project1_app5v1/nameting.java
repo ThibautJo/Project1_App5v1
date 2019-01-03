@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class nameting extends AppCompatActivity {
@@ -27,6 +28,9 @@ public class nameting extends AppCompatActivity {
     private Leerling leerling = new Leerling();
     private MediaPlayer mediaPlayer;
 
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,9 @@ public class nameting extends AppCompatActivity {
 
         // leerling declareren
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten.put("nameting", 0);
+
         mContext = getApplicationContext();
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
@@ -93,11 +100,11 @@ public class nameting extends AppCompatActivity {
             // volgende woord tonen, ondanks het goed of fout is
             // fout en goed moet geregistreerd worden
 
-            if (view.getTag().equals("juist")){
-                //TODO puntverdeling
-            }
-            else {
-                //TODO puntverdeling
+            if (!view.getTag().equals("juist")){
+                //puntverdeling
+                if (!voormetingWoorden[voormetingIndex].equals("duikbril")){
+                    aantalFouten.put("nameting", aantalFouten.get(1)+1);
+                }
             }
 
             if (voormetingIndex < voormetingWoorden.length){
@@ -114,8 +121,10 @@ public class nameting extends AppCompatActivity {
     // kind moet op juiste afbeelding klikken
     public void activityNext() {
 
-        Intent intent = new Intent(this, Project1_App5v1.class);
-        leerling = new Leerling();
+        Intent intent = new Intent(this, PuntenOverzicht.class);
+
+        intent.putExtra("leerling", leerling);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

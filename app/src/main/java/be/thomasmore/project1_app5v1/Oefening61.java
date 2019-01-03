@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.security.PublicKey;
+import java.util.HashMap;
 
 public class Oefening61 extends AppCompatActivity {
 
@@ -24,6 +25,8 @@ public class Oefening61 extends AppCompatActivity {
     private Leerling leerling = new Leerling();
 
     private String woord;
+
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
 
     private MediaPlayer mediaPlayer;
 
@@ -41,6 +44,8 @@ public class Oefening61 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten.put("oefening61", 0);
 
         //set titel
         TextView textView = findViewById(R.id.oef61Titel);
@@ -78,11 +83,16 @@ public class Oefening61 extends AppCompatActivity {
         public void onClick(View view) {
 
             if (view.getTag().equals("sad")) {
-                //TODO sad face geklikt
+                //sad face geklikt
+                if (!woord.equals("duikbril")){
+                    aantalFouten.put("oefening61", 0); // 0 = sad face
+                }
 
             } else {
-                //TODO happy face geklikt
-
+                //happy face geklikt
+                if (!woord.equals("duikbril")){
+                    aantalFouten.put("oefening61", 1); // 1 = happy face
+                }
             }
 
             nextActivity();
@@ -118,6 +128,7 @@ public class Oefening61 extends AppCompatActivity {
 
         intent.putExtra("leerling", leerling);
         intent.putExtra("woord", woord);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

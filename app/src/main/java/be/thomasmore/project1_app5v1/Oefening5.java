@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -42,6 +43,7 @@ public class Oefening5 extends AppCompatActivity {
     private ArrayList<Bitmap> bitmaps = new ArrayList<>();
     private String[] bitmapsString = new String[]{"juist", "juist", "juist", "fout"};
 
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -58,6 +60,8 @@ public class Oefening5 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten.put("oefening5", 0);
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
 
         //images ophalen en opvullen
@@ -71,11 +75,11 @@ public class Oefening5 extends AppCompatActivity {
             }
         }
 
-        //TODO bitmap array shuffelen --> zodat fout niet steeds zelfde plek
+        //bitmap array shuffelen --> zodat fout niet steeds zelfde plek
         shuffleBitmaps(bitmaps);
 
 
-        //TODO alle images setten naar bitmap
+        //alle images setten naar bitmap
         //images ophalen en opvullen
         int i = 1;
         for (Bitmap map : bitmaps) {
@@ -88,13 +92,13 @@ public class Oefening5 extends AppCompatActivity {
             i++;
         }
 
-        //TODO set image listeners onTouch
+        //set image listeners onTouch
         findViewById(R.id.picture1).setOnTouchListener(new MyTouchListener());
         findViewById(R.id.picture2).setOnTouchListener(new MyTouchListener());
         findViewById(R.id.picture3).setOnTouchListener(new MyTouchListener());
         findViewById(R.id.picture4).setOnTouchListener(new MyTouchListener());
 
-        //TODO set listeners on layout
+        //set listeners on layout
         findViewById(R.id.groepFotos).setOnDragListener(new MyDragListener());
 
         findViewById(R.id.groepFout).setOnDragListener(new MyDragListener());
@@ -115,7 +119,7 @@ public class Oefening5 extends AppCompatActivity {
         if (mediaPlayer != null)
             mediaPlayer.stop();
 
-        //TODO gepaste audio afspelen
+        //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef5_" + woord, "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
@@ -124,7 +128,7 @@ public class Oefening5 extends AppCompatActivity {
 
     public void shuffleBitmaps(ArrayList<Bitmap> bitmaps) {
 
-        //TODO shuffelen --> voorbeeld oef 4
+        //shuffelen --> voorbeeld oef 4
 
         // shuffelen van bitmaps array + bitmapString
         Random rnd = new Random();
@@ -208,7 +212,7 @@ public class Oefening5 extends AppCompatActivity {
                     view.setVisibility(View.VISIBLE);
 
 
-                    //TODO checken of alle linearviews goed gevuld zijn
+                    //checken of alle linearviews goed gevuld zijn
                     if (((LinearLayout) findViewById(R.id.groepJuist)).getChildCount() == 3 && ((LinearLayout) findViewById(R.id.groepFout)).getChildCount() == 1) {
                         if (((LinearLayout) findViewById(R.id.groepFout)).getChildAt(0).getTag().equals("fout")) {
 
@@ -238,6 +242,9 @@ public class Oefening5 extends AppCompatActivity {
                             mediaPlayer = MediaPlayer.create(getContext(), resRawId);
                             mediaPlayer.start();
 
+                            if (!woord.equals("duikbril")){
+                                aantalFouten.put("oefening5", aantalFouten.get("oefening5")+1);
+                            }
                             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                 @Override
                                 public void onCompletion(MediaPlayer mediaPlayer) {
@@ -280,6 +287,7 @@ public class Oefening5 extends AppCompatActivity {
 
         intent.putExtra("leerling", leerling);
         intent.putExtra("woord", woord);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

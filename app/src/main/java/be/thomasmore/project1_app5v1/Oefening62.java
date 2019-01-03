@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.HashMap;
+
 public class Oefening62 extends AppCompatActivity {
 
     private static Context mContext;
@@ -19,6 +21,8 @@ public class Oefening62 extends AppCompatActivity {
     private String woord;
 
     private MediaPlayer mediaPlayer;
+
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class Oefening62 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
 
         //set picture
         int resID = getResources().getIdentifier(woord, "drawable", getContext().getPackageName());
@@ -64,7 +69,7 @@ public class Oefening62 extends AppCompatActivity {
         if (mediaPlayer != null)
             mediaPlayer.stop();
 
-        //TODO gepaste audio afspelen
+        //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef62_" + woord, "raw", getContext().getPackageName()); // oef61_woord --> audio geluid
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
@@ -95,6 +100,7 @@ public class Oefening62 extends AppCompatActivity {
 
         intent.putExtra("leerling", leerling);
         intent.putExtra("woord", woord);
+        intent.putExtra("map", aantalFouten);
 
         startActivity(intent);
     }

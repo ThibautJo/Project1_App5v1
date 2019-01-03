@@ -38,6 +38,8 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     private String woord;
     private ArrayList<String> woordenAangeduid = new ArrayList<String>();
 
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
+
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -55,6 +57,8 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         correlatie = new DatabaseHelper(getContext()).getCorrelatie(woord);
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten.put("oefening4", 0);
 
         TextView textView = findViewById(R.id.oef4Titel);
         textView.setText(woord);
@@ -118,8 +122,6 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
 
-        Toast.makeText(getContext(), map.get("foto"+1).toString(), Toast.LENGTH_SHORT).show();
-
         if (view instanceof ImageView){
             ImageView imageView = (ImageView) view;
             GradientDrawable gradientDrawable = (GradientDrawable) imageView.getBackground();
@@ -129,7 +131,7 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                 gradientDrawable.setStroke(2, Color.GREEN);
                 view.setTag(R.id.oef4Kleur, "green");
                 //
-                //TODO toevoegen aan soort image array dat gecheckt word als er 3 afbeelding aangeduid zijn
+                //toevoegen aan soort image array dat gecheckt word als er 3 afbeelding aangeduid zijn
                 //
                 woordenAangeduid.add(view.getTag(R.id.oef4PictureText).toString());
                 if (woordenAangeduid.size() >= 3){
@@ -150,6 +152,7 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                                 Intent intent = new Intent(getContext(), Oefening5.class);
                                 intent.putExtra("leerling", leerling);
                                 intent.putExtra("woord", woord);
+                                intent.putExtra("map", aantalFouten);
 
                                 startActivity(intent);
                             }
@@ -166,6 +169,9 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
                         mediaPlayer.start();
 
+                        if (!woord.equals("duikbril")){
+                            aantalFouten.put("oefening4", aantalFouten.get("oefening4")+1);
+                        }
                         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mediaPlayer) {
@@ -208,7 +214,7 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         if (mediaPlayer != null)
             mediaPlayer.stop();
 
-        //TODO gepaste audio afspelen
+        //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef4_intro", "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
