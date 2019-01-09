@@ -60,8 +60,12 @@ public class Oefening5 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
-        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
-        aantalFouten.put("oefening5", 0);
+        aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
+        if (aantalFouten.containsKey("oefening5")) {
+            aantalFouten.put("oefening5", aantalFouten.get("oefening5"));
+        } else {
+            aantalFouten.put("oefening5", 0);
+        }
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
 
         //images ophalen en opvullen
@@ -85,7 +89,7 @@ public class Oefening5 extends AppCompatActivity {
         for (Bitmap map : bitmaps) {
 
             int viewID = getResources().getIdentifier("picture" + i, "id", getContext().getPackageName());
-            ImageView imageView = findViewById(viewID);
+            ImageView imageView = (ImageView) findViewById(viewID);
             imageView.setTag(bitmapsString[i - 1]);
             imageView.setImageBitmap(map);
 
@@ -116,14 +120,21 @@ public class Oefening5 extends AppCompatActivity {
     }
 
     public void playSound() {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
         //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef5_" + woord, "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     public void shuffleBitmaps(ArrayList<Bitmap> bitmaps) {
@@ -192,7 +203,7 @@ public class Oefening5 extends AppCompatActivity {
 
                     int LinearViewID = v.getId();
                     Boolean check = true;
-                    Toast.makeText(getContext(), LinearViewID + " " + R.id.groepJuist, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), LinearViewID + " " + R.id.groepJuist, Toast.LENGTH_SHORT).show();
 
                     if (LinearViewID == R.id.groepJuist && ((LinearLayout) findViewById(LinearViewID)).getChildCount() == 3) {
                         Toast.makeText(getContext(), "groepjuist zit vol", Toast.LENGTH_SHORT).show();
@@ -216,8 +227,8 @@ public class Oefening5 extends AppCompatActivity {
                     if (((LinearLayout) findViewById(R.id.groepJuist)).getChildCount() == 3 && ((LinearLayout) findViewById(R.id.groepFout)).getChildCount() == 1) {
                         if (((LinearLayout) findViewById(R.id.groepFout)).getChildAt(0).getTag().equals("fout")) {
 
-                            if (mediaPlayer != null)
-                                mediaPlayer.stop();
+                            if (mediaPlayer != null )
+                                mediaPlayer.release();
 
                             //gepaste audio afspelen
                             int resRawId = getResources().getIdentifier("oef5_goed", "raw", getContext().getPackageName());
@@ -234,16 +245,16 @@ public class Oefening5 extends AppCompatActivity {
 
                         } else {
                             //oefening recreaten
-                            if (mediaPlayer != null)
-                                mediaPlayer.stop();
+                            if (mediaPlayer != null )
+                                mediaPlayer.release();
 
                             //gepaste audio afspelen
                             int resRawId = getResources().getIdentifier("oef5_fout", "raw", getContext().getPackageName());
                             mediaPlayer = MediaPlayer.create(getContext(), resRawId);
                             mediaPlayer.start();
 
-                            if (!woord.equals("duikbril")){
-                                aantalFouten.put("oefening5", aantalFouten.get("oefening5")+1);
+                            if (!woord.equals("duikbril")) {
+                                aantalFouten.put("oefening5", aantalFouten.get("oefening5") + 1);
                             }
                             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                 @Override
@@ -271,7 +282,23 @@ public class Oefening5 extends AppCompatActivity {
     private void nextActivity() {
         Intent intent = new Intent();
 
-        switch (leerling.getGroepID()) {
+        int groepid;
+
+        Groep groep = new DatabaseHelper(getContext()).getGroep(leerling.getGroepID());
+        Conditie conditie = new DatabaseHelper(getContext()).getConditie(1);
+        Conditie conditie2 = new DatabaseHelper(getContext()).getConditie(2);
+
+
+        if ((woord.equals("duikbril")) || (conditie.getWoord1().equals(woord) || conditie.getWoord2().equals(woord) || conditie.getWoord3().equals(woord))) {
+            groepid = 0;
+        } else if (conditie2.getWoord1().equals(woord) || conditie2.getWoord2().equals(woord) || conditie2.getWoord3().equals(woord)) {
+            groepid = 1;
+        } else {
+            groepid = 2;
+        }
+
+
+        switch (groepid) {
             case 0:
                 intent = new Intent(getContext(), Oefening61.class);
                 break;
@@ -304,6 +331,12 @@ public class Oefening5 extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        for (int i = 1; i < 5; i++){
+            int viewID = getResources().getIdentifier("picture"+i, "id", getContext().getPackageName());
+            ImageView view = (ImageView) findViewById(viewID);
+            GradientDrawable gradientDrawable = (GradientDrawable) view.getBackground();
+            gradientDrawable.setStroke(2, Color.BLACK);
+        }
 
     }
 
@@ -314,20 +347,22 @@ public class Oefening5 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
+        if (mediaPlayer != null && mediaPlayer.isPlaying())
             mediaPlayer.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playSound();
+        if (mediaPlayer != null)
+            playSound();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 }

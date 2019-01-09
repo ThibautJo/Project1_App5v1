@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.HashMap;
 
@@ -40,9 +41,13 @@ public class Oefening62 extends AppCompatActivity {
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
 
+        //seettext
+        TextView textView = (TextView) findViewById(R.id.oef62titel);
+        textView.setText(woord);
+
         //set picture
         int resID = getResources().getIdentifier(woord, "drawable", getContext().getPackageName());
-        ImageView imageView = findViewById(R.id.oef62_doelwoord);
+        ImageView imageView = (ImageView)findViewById(R.id.oef62_doelwoord);
         imageView.setImageResource(resID);
 
         findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
@@ -66,19 +71,26 @@ public class Oefening62 extends AppCompatActivity {
     }
 
     public void playSound() {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
         //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef62_" + woord, "raw", getContext().getPackageName()); // oef61_woord --> audio geluid
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     private void nextActivity() {
 
-        Groep groep = new DatabaseHelper(getContext()).getGroep(0);
+        Groep groep = new DatabaseHelper(getContext()).getGroep(leerling.getGroepID());
 
         Conditie con2 = new DatabaseHelper(getContext()).getConditie(groep.getConditie_id2());
         Conditie con3 = new DatabaseHelper(getContext()).getConditie(groep.getConditie_id3());
@@ -111,20 +123,22 @@ public class Oefening62 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playSound();
+        if (mediaPlayer != null)
+            playSound();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 }

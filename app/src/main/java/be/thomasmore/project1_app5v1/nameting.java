@@ -22,7 +22,7 @@ public class nameting extends AppCompatActivity {
 
     private String[] voormetingWoorden = new String[]{"duikbril", "klimtouw", "kroos", "riet", "val", "kompas", "steil", "zwaan", "kamp", "zaklamp"};
     private int voormetingIndex = 0; // index 0 telt niet mee voor punten --> oefenwoord
-    private String[] voormetingVolgorde = new String[]{"juist","fout","fout","fout"};
+    private String[] voormetingVolgorde = new String[]{"juist", "fout", "fout", "fout"};
 
     private static Context mContext;
     private Leerling leerling = new Leerling();
@@ -41,12 +41,12 @@ public class nameting extends AppCompatActivity {
 
         // leerling declareren
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
-        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+        aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
         aantalFouten.put("nameting", 0);
 
         mContext = getApplicationContext();
 
-        toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
+        toolbar.setTitle(leerling.getNaam() + " " + leerling.getVoornaam());
 
         //afbeeldingen opvullen
         afbeeldingenOpvullen();
@@ -60,18 +60,18 @@ public class nameting extends AppCompatActivity {
 
     }
 
-    public void afbeeldingenOpvullen(){
+    public void afbeeldingenOpvullen() {
 
         //texttitel aanpassen
-        TextView textView = findViewById(R.id.voormetingTitel);
+        TextView textView = (TextView) findViewById(R.id.voormetingTitel);
         textView.setText(voormetingWoorden[voormetingIndex]);
 
         // afbeeldingen opvullen
-        voormetingVolgorde = new String[]{"juist","fout","fout","fout"};
+        voormetingVolgorde = new String[]{"juist", "fout", "fout", "fout"};
         ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        for (int i = 1; i <= 4; i++){
+        for (int i = 1; i <= 4; i++) {
             // éérste voormeting is de juiste
-            int resID = getResources().getIdentifier("voormeting_"+voormetingWoorden[voormetingIndex]+"_"+i, "drawable", getContext().getPackageName());
+            int resID = getResources().getIdentifier("voormeting_" + voormetingWoorden[voormetingIndex] + "_" + i, "drawable", getContext().getPackageName());
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resID);
             bitmaps.add(bitmap);
         }
@@ -81,10 +81,10 @@ public class nameting extends AppCompatActivity {
 
         //images setten
         int i = 1;
-        for (Bitmap bitmap : bitmaps){
-            int viewID = getResources().getIdentifier("foto"+i, "id", getContext().getPackageName());
-            ImageView imageView = findViewById(viewID);
-            imageView.setTag(voormetingVolgorde[i-1]);
+        for (Bitmap bitmap : bitmaps) {
+            int viewID = getResources().getIdentifier("foto" + i, "id", getContext().getPackageName());
+            ImageView imageView = (ImageView) findViewById(viewID);
+            imageView.setTag(voormetingVolgorde[i - 1]);
             imageView.setImageBitmap(bitmap);
 
             i++;
@@ -94,24 +94,24 @@ public class nameting extends AppCompatActivity {
         playAudio(voormetingWoorden[voormetingIndex]);
 
     }
-    public class MyImageOnclickListener implements View.OnClickListener{
+
+    public class MyImageOnclickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             // volgende woord tonen, ondanks het goed of fout is
             // fout en goed moet geregistreerd worden
 
-            if (!view.getTag().equals("juist")){
+            if (!view.getTag().equals("juist")) {
                 //puntverdeling
-                if (!voormetingWoorden[voormetingIndex].equals("duikbril")){
-                    aantalFouten.put("nameting", aantalFouten.get(1)+1);
+                if (!voormetingWoorden[voormetingIndex].equals("duikbril")) {
+                    aantalFouten.put("nameting", aantalFouten.get("nameting") + 1);
                 }
             }
 
-            if (voormetingIndex < voormetingWoorden.length){
+            if (voormetingIndex < voormetingWoorden.length - 1) {
                 voormetingIndex += 1;
                 afbeeldingenOpvullen();
-            }
-            else {
+            } else {
                 activityNext();
             }
 
@@ -131,11 +131,18 @@ public class nameting extends AppCompatActivity {
 
     public void playAudio(String audioFile) {
         if (mediaPlayer != null)
-            mediaPlayer.stop();
+            mediaPlayer.release();
 
         int resID = getResources().getIdentifier(audioFile, "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(this, resID);
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     public void shuffleBitmaps(ArrayList<Bitmap> bitmaps) {
@@ -167,7 +174,7 @@ public class nameting extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (mediaPlayer != null)
-            mediaPlayer.stop();
+            mediaPlayer.release();
     }
 
     @Override
@@ -178,8 +185,9 @@ public class nameting extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 
 }

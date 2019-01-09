@@ -11,10 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class PreTeachingplaat extends AppCompatActivity {
 
     private MediaPlayer audioPlayer;
     private Leerling leerling = new Leerling();
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
     private String woord;
 
     @Override
@@ -27,6 +30,7 @@ public class PreTeachingplaat extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
 
         //img settings (niet compleet)
         ImageView img = (ImageView) findViewById(R.id.klikBomen);
@@ -44,9 +48,6 @@ public class PreTeachingplaat extends AppCompatActivity {
 
         if (v.getTag().equals("fotoJuist")) {//correct gekozen
 
-            // iets leuk tonen (tijdelijk toast)
-            Toast.makeText(this, "Juist gekozen", Toast.LENGTH_SHORT).show();
-
             // eventuele aantal setting instellen (leerling object aanpassen?)
 
             // next activity openen
@@ -54,6 +55,7 @@ public class PreTeachingplaat extends AppCompatActivity {
             Intent intent = new Intent(this, Oefening1.class);
             intent.putExtra("leerling", leerling);
             intent.putExtra("woord", "duikbril");
+            intent.putExtra("map", aantalFouten);
 
             startActivity(intent);
 
@@ -85,6 +87,10 @@ public class PreTeachingplaat extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        audioPlayer.stop();
+        if (audioPlayer != null && audioPlayer.isPlaying())
+            audioPlayer.stop();
+
+        audioPlayer.release();
+        audioPlayer = null;
     }
 }

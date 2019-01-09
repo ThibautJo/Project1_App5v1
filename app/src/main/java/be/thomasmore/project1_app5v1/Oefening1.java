@@ -85,13 +85,20 @@ public class Oefening1 extends AppCompatActivity {
     }
 
     public void playAudio(){
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
         int audioFile = getApplicationContext().getResources().getIdentifier("oef1_" + woord, "raw", getApplicationContext().getPackageName());
         mediaPlayer = MediaPlayer.create(this, audioFile);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     public static Context getContext(){
@@ -101,21 +108,23 @@ public class Oefening1 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playAudio();
+        if (mediaPlayer != null)
+            playAudio();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+            mediaPlayer.release();
+            mediaPlayer = null;
     }
 
 }

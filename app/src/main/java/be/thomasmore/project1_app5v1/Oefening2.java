@@ -40,7 +40,7 @@ public class Oefening2 extends AppCompatActivity {
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
 
-        toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
+        toolbar.setTitle(leerling.getNaam() + " " + leerling.getVoornaam());
 
         //image
         int imageFile = getContext().getResources().getIdentifier(woord, "drawable", getContext().getPackageName()); // oef 1 = oef 2 -> zelfde afbeelding
@@ -54,7 +54,7 @@ public class Oefening2 extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Oefening3.class);
+                Intent intent = new Intent(getContext(), Oefening3.class);
                 intent.putExtra("woord", woord);
                 intent.putExtra("leerling", leerling);
                 intent.putExtra("map", aantalFouten);
@@ -66,14 +66,22 @@ public class Oefening2 extends AppCompatActivity {
 
 
     }
-    public void playAudio(){
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+    public void playAudio() {
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
         int audioFile = getContext().getResources().getIdentifier("oef2_" + woord, "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(this, audioFile);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     //getter
@@ -85,20 +93,24 @@ public class Oefening2 extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (mediaPlayer != null)
-            mediaPlayer.stop();
+            mediaPlayer.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playAudio();
+        if (mediaPlayer != null)
+            playAudio();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
+
+
     }
 
 }

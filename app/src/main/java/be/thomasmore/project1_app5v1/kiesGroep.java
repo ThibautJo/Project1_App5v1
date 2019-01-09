@@ -9,9 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class kiesGroep extends AppCompatActivity {
 
     private Leerling leerling = new Leerling();
+    private HashMap<String, Integer> aantalFouten = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,8 @@ public class kiesGroep extends AppCompatActivity {
 
         // leerling declareren
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
+        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
+
 
         toolbar.setTitle(leerling.getNaam() + " " +leerling.getVoornaam());
 
@@ -48,6 +54,7 @@ public class kiesGroep extends AppCompatActivity {
             Intent intent = new Intent(this, PreTeachingplaat.class);
             intent.putExtra("leerling", leerling);
             intent.putExtra("woord", "duikbril");
+            intent.putExtra("map", aantalFouten);
 
             startActivity(intent);
         }

@@ -62,7 +62,7 @@ public class voormeting extends AppCompatActivity {
     public void afbeeldingenOpvullen(){
 
         //texttitel aanpassen
-        TextView textView = findViewById(R.id.voormetingTitel);
+        TextView textView = (TextView) findViewById(R.id.voormetingTitel);
         textView.setText(voormetingWoorden[voormetingIndex]);
 
         // afbeeldingen opvullen
@@ -82,7 +82,7 @@ public class voormeting extends AppCompatActivity {
         int i = 1;
         for (Bitmap bitmap : bitmaps){
             int viewID = getResources().getIdentifier("foto"+i, "id", getContext().getPackageName());
-            ImageView imageView = findViewById(viewID);
+            ImageView imageView = (ImageView)findViewById(viewID);
             imageView.setTag(voormetingVolgorde[i-1]);
             imageView.setImageBitmap(bitmap);
 
@@ -103,7 +103,7 @@ public class voormeting extends AppCompatActivity {
             if (!view.getTag().equals("juist")){
                 //puntverdeling
                 if (!voormetingWoorden[voormetingIndex].equals("duikbril")){
-                    aantalFouten.put("voormeting", aantalFouten.get(1)+1);
+                    aantalFouten.put("voormeting", aantalFouten.get("voormeting")+1);
                 }
             }
 
@@ -129,12 +129,21 @@ public class voormeting extends AppCompatActivity {
     }
 
     public void playAudio(String audioFile) {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        if (mediaPlayer != null )
+            mediaPlayer.release();
+
 
         int resID = getResources().getIdentifier(audioFile, "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(this, resID);
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     public void shuffleBitmaps(ArrayList<Bitmap> bitmaps) {
@@ -165,8 +174,8 @@ public class voormeting extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
     }
 
     @Override
@@ -177,7 +186,8 @@ public class voormeting extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 }

@@ -44,21 +44,25 @@ public class Oefening61 extends AppCompatActivity {
         // woord + leerling ophalen en ophalen van correlatie van het woord
         woord = getIntent().getExtras().getString("woord");
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
-        aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
-        aantalFouten.put("oefening61", 0);
+        aantalFouten = (HashMap<String, Integer>) getIntent().getSerializableExtra("map");
+        if (aantalFouten.containsKey("oefening61")) {
+            aantalFouten.put("oefening61", aantalFouten.get("oefening61"));
+        } else {
+            aantalFouten.put("oefening61", 0);
+        }
 
         //set titel
-        TextView textView = findViewById(R.id.oef61Titel);
+        TextView textView = (TextView) findViewById(R.id.oef61Titel);
         textView.setText(woord);
 
         int resId = getResources().getIdentifier(woord, "drawable", getContext().getPackageName());
-        ImageView imageView = findViewById(R.id.oef61DoelwoordAfbeelding);
+        ImageView imageView = (ImageView) findViewById(R.id.oef61DoelwoordAfbeelding);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
         imageView.setImageBitmap(bitmap);
 
-        ImageView imageViewSad = findViewById(R.id.sad);
+        ImageView imageViewSad = (ImageView) findViewById(R.id.sad);
         imageViewSad.setTag("sad");
-        ImageView imageViewHappy = findViewById(R.id.happy);
+        ImageView imageViewHappy = (ImageView) findViewById(R.id.happy);
         imageViewHappy.setTag("happy");
 
         imageViewSad.setOnClickListener(new MyOnclickListener());
@@ -68,14 +72,22 @@ public class Oefening61 extends AppCompatActivity {
 
 
     }
-    public void playSound(){
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+    public void playSound() {
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
         int resRawId = getResources().getIdentifier("oef61_" + woord, "raw", getContext().getPackageName()); // oef61_woord --> audio geluid
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     public class MyOnclickListener implements View.OnClickListener {
@@ -84,14 +96,14 @@ public class Oefening61 extends AppCompatActivity {
 
             if (view.getTag().equals("sad")) {
                 //sad face geklikt
-                if (!woord.equals("duikbril")){
-                    aantalFouten.put("oefening61", 0); // 0 = sad face
+                if (!woord.equals("duikbril")) {
+                    aantalFouten.put("oefening61", aantalFouten.get("oefening61")); // 0 = sad face
                 }
 
             } else {
                 //happy face geklikt
-                if (!woord.equals("duikbril")){
-                    aantalFouten.put("oefening61", 1); // 1 = happy face
+                if (!woord.equals("duikbril")) {
+                    aantalFouten.put("oefening61", aantalFouten.get("oefening61") + 1); // aantal keren happy face
                 }
             }
 
@@ -140,21 +152,23 @@ public class Oefening61 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playSound();
+        if (mediaPlayer != null)
+            playSound();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 
 }

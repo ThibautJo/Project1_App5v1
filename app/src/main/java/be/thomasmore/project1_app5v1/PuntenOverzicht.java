@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,7 +79,9 @@ public class PuntenOverzicht extends AppCompatActivity {
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
 
-        TextView textView = findViewById(R.id.leerlingNaam);
+        mContext = getApplicationContext();
+
+        TextView textView = (TextView) findViewById(R.id.leerlingNaam);
         textView.setText(leerling.getVoornaam() + " " + leerling.getNaam());
 
         Iterator it = aantalFouten.entrySet().iterator();
@@ -90,7 +93,7 @@ public class PuntenOverzicht extends AppCompatActivity {
 
         ArrayAdapter<puntenVerdeling> adapter = new ArrayAdapter<puntenVerdeling>(this, android.R.layout.simple_list_item_1, punten);
 
-        ListView listView = findViewById(R.id.lijstPunten);
+        ListView listView = (ListView) findViewById(R.id.lijstPunten);
         listView.setAdapter(adapter);
 
 

@@ -58,22 +58,26 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
         leerling = (Leerling) getIntent().getSerializableExtra("leerling");
         correlatie = new DatabaseHelper(getContext()).getCorrelatie(woord);
         aantalFouten = (HashMap<String , Integer>) getIntent().getSerializableExtra("map");
-        aantalFouten.put("oefening4", 0);
+        if (aantalFouten.containsKey("oefening4")) {
+            aantalFouten.put("oefening4", aantalFouten.get("oefening4"));
+        } else {
+            aantalFouten.put("oefening4", 0);
+        }
 
-        TextView textView = findViewById(R.id.oef4Titel);
+        TextView textView = (TextView) findViewById(R.id.oef4Titel);
         textView.setText(woord);
 
         // correkate in arraylist steken zodat we erdoor kunnen loopen
         correlatieByIndex = correlatie.getCorrelatieArraylist();
 
         //listeners
-        ImageView imageView1 = findViewById(R.id.picture1);
+        ImageView imageView1 = (ImageView) findViewById(R.id.picture1);
         imageView1.setOnClickListener(this);
-        ImageView imageView2 = findViewById(R.id.picture2);
+        ImageView imageView2 = (ImageView)findViewById(R.id.picture2);
         imageView2.setOnClickListener(this);
-        ImageView imageView3 = findViewById(R.id.picture3);
+        ImageView imageView3 = (ImageView)findViewById(R.id.picture3);
         imageView3.setOnClickListener(this);
-        ImageView imageView4 = findViewById(R.id.picture4);
+        ImageView imageView4 = (ImageView)findViewById(R.id.picture4);
         imageView4.setOnClickListener(this);
 
         // Getallen Array van 1-4 shuffelen
@@ -138,8 +142,8 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                     // checken als alle woorden juist zijn en doorgaan naar volgende activity...
                     if (!woordenAangeduid.contains(correlatie.getWoordFout().trim())){
 
-                        if (mediaPlayer != null)
-                            mediaPlayer.stop();
+                        if (mediaPlayer != null )
+                            mediaPlayer.release();
 
                         //gepaste audio afspelen
                         int resRawId = getResources().getIdentifier("oef4_goed", "raw", getContext().getPackageName());
@@ -161,8 +165,8 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
                     else {
                         // resetten van alle woorden...
                         // activity recreaten
-                        if (mediaPlayer != null)
-                            mediaPlayer.stop();
+                        if (mediaPlayer != null )
+                            mediaPlayer.release();
 
                         //gepaste audio afspelen
                         int resRawId = getResources().getIdentifier("oef4_fout", "raw", getContext().getPackageName());
@@ -211,14 +215,21 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     }
 
     public void playSound() {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null )
+            mediaPlayer.release();
 
-        //gepaste audio afspelen
+         //gepaste audio afspelen
         int resRawId = getResources().getIdentifier("oef4_intro", "raw", getContext().getPackageName());
         mediaPlayer = MediaPlayer.create(getContext(), resRawId);
 
         mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
     }
 
     @Override
@@ -247,20 +258,22 @@ public class Oefening4 extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null)
+        if (mediaPlayer != null && mediaPlayer.isPlaying())
             mediaPlayer.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playSound();
+        if (mediaPlayer != null)
+            playSound();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 }
